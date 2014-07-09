@@ -1,10 +1,12 @@
 package pl.slawas.filter;
 
 import java.io.Serializable;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import pl.slawas.filter.beans.SortParams;
 import pl.slawas.filter.cache.CacheUsage;
 import pl.slawas.paging.Page;
 import pl.slawas.paging.PagingParams;
@@ -24,10 +26,11 @@ import pl.slawas.paging.PagingParams;
  * @param <QueCondition>
  *            klasa oryginalnego obiektu klauzuli warunku zapytania
  * @param <Row>
+ * @param <Entity>
  */
 @SuppressWarnings("serial")
-public abstract class Searcher<Req, QueClause, QueCondition, Row> implements
-		Serializable {
+public abstract class Searcher<Req, QueClause, QueCondition, Row extends ResultRow<Entity>, Entity>
+		implements Serializable {
 
 	final protected transient Logger logger = LoggerFactory
 			.getLogger(getClass());
@@ -62,7 +65,7 @@ public abstract class Searcher<Req, QueClause, QueCondition, Row> implements
 	 *            zapytanie do wyszukiwacza
 	 * @return odpowiedz od wyszukiwacza
 	 */
-	public abstract QueryResponse<Row> search(
+	public abstract QueryResponse<Row, Entity> search(
 			Request<Req, QueClause, QueCondition> request);
 
 	/**
@@ -72,10 +75,14 @@ public abstract class Searcher<Req, QueClause, QueCondition, Row> implements
 	 *            nazwa indeksu
 	 * @param query
 	 *            zapytanie
+	 * @param sorts
+	 * @param maxResults
+	 *            maksymalna liczba wyników w rezultacie zapytania
 	 * @return zbudowane żądanie realizacji zapytania
 	 */
 	public abstract Request<Req, QueClause, QueCondition> getRequest(
-			String indexName, SearchQueryClause<QueClause, QueCondition> query);
+			String indexName, SearchQueryClause<QueClause, QueCondition> query,
+			List<SortParams> sorts, Integer maxResults);
 
 	/**
 	 * @param cacheUsage

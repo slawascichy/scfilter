@@ -5,7 +5,7 @@ import java.util.Collection;
 import pl.slawas.paging.ResultMessage;
 import pl.slawas.paging.ResultSupport;
 
-public class TResult extends ResultSupport<TQueryResult> {
+public class TResult extends ResultSupport<TResultRow> {
 
 	private static final long serialVersionUID = -4030797784607063255L;
 
@@ -31,7 +31,7 @@ public class TResult extends ResultSupport<TQueryResult> {
 	 */
 	public TResult(int startPosition, int endPosition,
 			Integer firstRowPosition, int resultSize, Integer lastRowPosition,
-			Collection<TQueryResult> result, ResultMessage message,
+			Collection<TResultRow> result, ResultMessage message,
 			int absoluteFirstRowPosition, int resultMaxPages) {
 		super(startPosition, endPosition, firstRowPosition, resultSize,
 				lastRowPosition, result, message, absoluteFirstRowPosition,

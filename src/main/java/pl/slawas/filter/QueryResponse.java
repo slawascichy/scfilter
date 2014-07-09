@@ -21,8 +21,8 @@ import pl.slawas.paging._IResultInfo;
  * @param <Row>
  *            klasa obiektu reprezentującego wiersz zwracanego wyniku
  */
-public abstract class QueryResponse<Row> extends PagedResultSupport<Row>
-		implements _IResultInfo {
+public abstract class QueryResponse<Row extends ResultRow<Entity>, Entity>
+		extends PagedResultSupport<Row> implements _IResultInfo {
 
 	private static final long serialVersionUID = -5210221106589109534L;
 
@@ -45,7 +45,7 @@ public abstract class QueryResponse<Row> extends PagedResultSupport<Row>
 	/**
 	 * @return the results
 	 */
-	public abstract Collection<QueryResult<Row>> getResults();
+	public abstract Collection<Row> getResults();
 
 	public int getAbsoluteFirstRowPosition() {
 		return this.result.getAbsoluteFirstRowPosition();

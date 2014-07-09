@@ -27,16 +27,16 @@ public class QueryParam implements Serializable {
 	 * wartość dolnej granicy kryterium, dla kryteriów {@link OperationType#EQ}
 	 * to jest to po prostu wartość kryterium
 	 */
-	private String from;
+	private Object from;
 
 	/**
 	 * wartość górnej granicy kryterium, dla kryteriów {@link OperationType#EQ}
 	 * to wartość kryterium przyjmuje {@code null}
 	 */
-	private String to;
+	private Object to;
 
 	private Accuracy accuracy = Accuracy.MUST;
-	
+
 	/**
 	 * Konstruktor wartości filtra. Po użyciu tego konstruktora, trafność wyniku
 	 * zostanie ustwiona na {@link Accuracy#MUST}.
@@ -55,7 +55,7 @@ public class QueryParam implements Serializable {
 	 *            druga wartość (może przyjmować wartość {@code null})
 	 */
 	public QueryParam(String fieldName, OperationType operationType,
-			String from, String to) {
+			Object from, Object to) {
 		super();
 		if (StringUtils.isBlank(fieldName)) {
 			throw new NullPointerException("Nazwa pola musi zostać podana");
@@ -66,7 +66,7 @@ public class QueryParam implements Serializable {
 					"Operacja sposóbu budowania wyszukiwania musi zostać podana");
 		}
 		this.operationType = operationType;
-		if (StringUtils.isBlank(from)) {
+		if (from == null) {
 			throw new NullPointerException("Wartość filtra musi zostać podana");
 		}
 		this.from = from;
@@ -124,7 +124,7 @@ public class QueryParam implements Serializable {
 	 * @return wartość dolnej granicy kryterium, dla kryteriów
 	 *         {@link OperationType#EQ} to jest to po prostu wartość kryterium
 	 */
-	public String getFrom() {
+	public Object getFrom() {
 		return from;
 	}
 
@@ -133,7 +133,7 @@ public class QueryParam implements Serializable {
 	 *         {@link OperationType#EQ} to wartość kryterium przyjmuje
 	 *         {@code null}
 	 */
-	public String getTo() {
+	public Object getTo() {
 		return to;
 	}
 

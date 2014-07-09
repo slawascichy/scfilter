@@ -43,7 +43,7 @@ public interface _ISearcherBaseDAO<Obj> {
 	 * @return lista encji
 	 * @throws SearcherException
 	 */
-	public List<Obj> findByIdList(List<Object> idList, boolean resultIsForDump,
+	public List<Obj> findByIdList(List<? extends Object> idList, boolean resultIsForDump,
 			PagingParams searcherPagingParams) throws SearcherException;
 
 	/**

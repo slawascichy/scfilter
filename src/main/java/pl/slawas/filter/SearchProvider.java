@@ -30,7 +30,9 @@ import pl.slawas.paging.PagingParamsReadOnly;
 
 /**
  * 
- * SearchProvider
+ * SearchProvider - klasa abstrakcyjna providera wyszukującego/filtrującego dane
+ * w indeksie wyszukiwania. Klasa tak zaimplementowana, że obsługuje tylko jeden
+ * parametr sortowania.
  * 
  * @author Slawomir Cichy &lt;slawas@slawas.pl&gt;
  * @version $Revision: 1.12 $
@@ -46,16 +48,16 @@ import pl.slawas.paging.PagingParamsReadOnly;
  *            klasa oryginalnej klauzuli warunku zapytania.
  * @param <Row>
  *            klasa odpowiadająca oryginalnemu wierszowi wyniku zapytania
- * @param <Obj>
+ * @param <Entity>
  *            klasa encji, której dotyczy wyszukiwanie
  * @param <DAO>
  *            klasa DAO encji
  */
 @SuppressWarnings("serial")
-public abstract class SearchProvider<OSearcher, Req, QueClause, QueCondition, Row, Obj extends _ICopyable<Obj>, DAO extends _ISearcherBaseDAO<Obj>>
+public abstract class SearchProvider<OSearcher, Req, QueClause, QueCondition, Row extends ResultRow<Entity>, Entity extends _ICopyable<Entity>, DAO extends _ISearcherBaseDAO<Entity>>
 		implements
 		Serializable,
-		_ISearchProvider<OSearcher, Req, QueClause, QueCondition, Row, Obj, DAO> {
+		_ISearchProvider<OSearcher, Req, QueClause, QueCondition, Row, Entity, DAO> {
 
 	final protected transient Logger logger = LoggerFactory
 			.getLogger(getClass().getName());
@@ -82,11 +84,11 @@ public abstract class SearchProvider<OSearcher, Req, QueClause, QueCondition, Ro
 
 	protected final String indexName;
 
-	protected final Obj unknownObject;
+	protected final Entity unknownObject;
 
 	protected final String primaryKeyColumnName;
 
-	protected final Searcher<Req, QueClause, QueCondition, Row> searcher;
+	protected final Searcher<Req, QueClause, QueCondition, Row, Entity> searcher;
 
 	/**
 	 * Aby utworzyć wyszukiwarke trzeba podać nazwę indeksu.
@@ -94,8 +96,8 @@ public abstract class SearchProvider<OSearcher, Req, QueClause, QueCondition, Ro
 	 * @param indexName
 	 */
 	protected SearchProvider(
-			Searcher<Req, QueClause, QueCondition, Row> searcher,
-			String indexName, Obj unknownObject, DAO dao,
+			Searcher<Req, QueClause, QueCondition, Row, Entity> searcher,
+			String indexName, Entity unknownObject, DAO dao,
 			String primaryKeyColumnName) {
 		this.searcher = searcher;
 		this.indexName = indexName;
@@ -105,56 +107,62 @@ public abstract class SearchProvider<OSearcher, Req, QueClause, QueCondition, Ro
 		init();
 	}
 
-	public SearchResult<Obj> find(
-			SearchQueryClause<QueClause, QueCondition> queryClause)
-			throws SearcherException {
+	public SearchResult<Row, Entity> find(
+			SearchQueryClause<QueClause, QueCondition> queryClause,
+			Integer maxResults) throws SearcherException {
 		return find(queryClause, this.searcher.getPagingParams().getPage(),
-				null, null, false);
+				null, null, false, maxResults);
 	}
 
-	public SearchResult<Obj> find(
+	public SearchResult<Row, Entity> find(
 			SearchQueryClause<QueClause, QueCondition> queryClause,
-			boolean export) throws SearcherException {
+			boolean export, Integer maxResults) throws SearcherException {
 		return this.find(queryClause,
-				this.searcher.getPagingParams().getPage(), null, null, export);
+				this.searcher.getPagingParams().getPage(), null, null, export,
+				maxResults);
 
 	}
 
-	public SearchResult<Obj> find(
-			SearchQueryClause<QueClause, QueCondition> queryClause, Page page)
+	public SearchResult<Row, Entity> find(
+			SearchQueryClause<QueClause, QueCondition> queryClause, Page page,
+			Integer maxResults) throws SearcherException {
+		return find(queryClause, page, null, null, false, maxResults);
+	}
+
+	public SearchResult<Row, Entity> find(
+			SearchQueryClause<QueClause, QueCondition> queryClause,
+			String sortName, String sortDir, Integer maxResults)
 			throws SearcherException {
-		return find(queryClause, page, null, null, false);
-	}
-
-	public SearchResult<Obj> find(
-			SearchQueryClause<QueClause, QueCondition> queryClause,
-			String sortName, String sortDir) throws SearcherException {
 		return find(queryClause, this.searcher.getPagingParams().getPage(),
-				sortName, sortDir, false);
+				sortName, sortDir, false, maxResults);
 	}
 
-	public SearchResult<Obj> find(
+	public SearchResult<Row, Entity> find(
 			SearchQueryClause<QueClause, QueCondition> queryClause,
-			String sortName, String sortDir, boolean export)
+			String sortName, String sortDir, boolean export, Integer maxResults)
 			throws SearcherException {
 		return this.find(queryClause,
 				this.searcher.getPagingParams().getPage(), sortName, sortDir,
-				export);
+				export, maxResults);
 	}
 
-	public SearchResult<Obj> find(
+	public SearchResult<Row, Entity> find(
 			SearchQueryClause<QueClause, QueCondition> queryClause, Page page,
-			String sortName, String sortDir) throws SearcherException {
-		return this.find(queryClause, page, sortName, sortDir, false);
+			String sortName, String sortDir, Integer maxResults)
+			throws SearcherException {
+		return this.find(queryClause, page, sortName, sortDir, false,
+				maxResults);
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public SearchResult<Obj> find(
+	public SearchResult<Row, Entity> find(
 			SearchQueryClause<QueClause, QueCondition> queryClause, Page page,
-			String sortName, String sortDir, boolean export)
+			String sortName, String sortDir, boolean export, Integer maxResults)
 			throws SearcherException {
 
-		Request request = searcher.getRequest(indexName, queryClause);
+		List<SortParams> sorts = createSortPatamsList(sortName, sortDir);
+		Request request = searcher.getRequest(indexName, queryClause, sorts,
+				maxResults);
 		if (export) {
 			if (!this.wasExport) {
 				this.pagingParamsBeforeExport = searcher.getPagingParams()
@@ -177,6 +185,21 @@ public abstract class SearchProvider<OSearcher, Req, QueClause, QueCondition, Ro
 			logger.warn("Nie udalo sie ustwic parametrow strony.");
 		}
 
+		return this.sendRequest(request);
+	}
+
+	/**
+	 * Utworzenie jednoelementowej listy parametrów do sortowania.
+	 * 
+	 * @param sortName
+	 *            nazwa parametru do sortowania
+	 * @param sortDir
+	 *            kierunek do sortowania.
+	 * @return
+	 */
+	private List<SortParams> createSortPatamsList(String sortName,
+			String sortDir) {
+		List<SortParams> sorts = null;
 		if (sortName != null
 				&& sortDir != null
 				&& (sortDir.toLowerCase().equals("asc") || sortDir
@@ -187,19 +210,22 @@ public abstract class SearchProvider<OSearcher, Req, QueClause, QueCondition, Ro
 			if (sortParam != null) {
 				SortParams sortParams = new SortParams(sortParam, sortDir
 						.toLowerCase().equals("asc"));
-				request.setSortParams(sortParams);
+				sorts = new ArrayList<SortParams>();
+				sorts.add(sortParams);
 			}
 		}
-		return this.sendRequest(request);
+		return sorts;
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public List<Object> find(
 			SearchQueryClause<QueClause, QueCondition> queryClause, Page page,
 			String sortName, String sortDir, boolean export,
-			boolean downloadList) throws SearcherException {
+			boolean downloadList, Integer maxResults) throws SearcherException {
 
-		Request request = searcher.getRequest(indexName, queryClause);
+		List<SortParams> sorts = createSortPatamsList(sortName, sortDir);
+		Request request = searcher.getRequest(indexName, queryClause, sorts,
+				maxResults);
 		if (export) {
 			if (!this.wasExport) {
 				this.pagingParamsBeforeExport = searcher.getPagingParams()
@@ -222,25 +248,12 @@ public abstract class SearchProvider<OSearcher, Req, QueClause, QueCondition, Ro
 			logger.warn("Nie udalo sie ustwic parametrow strony.");
 		}
 
-		if (sortName != null
-				&& sortDir != null
-				&& (sortDir.toLowerCase().equals("asc") || sortDir
-						.toLowerCase().equals("desc"))) {
-			logger.trace("Ustawiam pole sortowania: '{}'", sortName);
-			String sortParam = getParamsMap().get(sortName)
-					.getIndexSortFieldName();
-			if (sortParam != null) {
-				SortParams sortParams = new SortParams(sortParam, sortDir
-						.toLowerCase().equals("asc"));
-				request.setSortParams(sortParams);
-			}
-		}
-		QueryResponse<Row> qResponse = this.searcher.search(request);
+		QueryResponse<Row, Entity> qResponse = this.searcher.search(request);
 		if (qResponse == null) {
 			throw new SearchNotResponseException();
 		}
-		Collection<QueryResult<Row>> result = qResponse.getResults();
-		FilterPaginatedList<Obj> list = new FilterPaginatedList<Obj>(
+		Collection<Row> result = qResponse.getResults();
+		FilterPaginatedList<Entity> list = new FilterPaginatedList<Entity>(
 				result.size());
 		List<Object> idList = new ArrayList<Object>(result.size());
 		if (result.size() > 0) {
@@ -249,10 +262,10 @@ public abstract class SearchProvider<OSearcher, Req, QueClause, QueCondition, Ro
 						result.size());
 				Object id;
 				Map<String, Object> map;
-				Iterator<QueryResult<Row>> iterator = result.iterator();
+				Iterator<Row> iterator = result.iterator();
 				int iCount = 0;
 				while (iterator.hasNext()) {
-					QueryResult<Row> qr = iterator.next();
+					Row qr = iterator.next();
 					map = qr.getFields();
 					id = map.get(this.primaryKeyColumnName);
 					if (id instanceof String) {
@@ -264,7 +277,8 @@ public abstract class SearchProvider<OSearcher, Req, QueClause, QueCondition, Ro
 								new Object[] { id, id.getClass() });
 					}
 					idList.add(id);
-					list.add((Obj) IDUtils.setObjectId(unknownObject.copy(), id));
+					list.add((Entity) IDUtils.setObjectId(unknownObject.copy(),
+							id));
 					resultOrderMap.put(id, iCount);
 					iCount++;
 				}
@@ -299,16 +313,17 @@ public abstract class SearchProvider<OSearcher, Req, QueClause, QueCondition, Ro
 	private Object requestLock = new Object();
 
 	@SuppressWarnings("unchecked")
-	public SearchResult<Obj> sendRequest(
+	public SearchResult<Row, Entity> sendRequest(
 			Request<Req, QueClause, QueCondition> request)
 			throws SearcherException {
 		synchronized (requestLock) {
-			QueryResponse<Row> qResponse = this.searcher.search(request);
+			QueryResponse<Row, Entity> qResponse = this.searcher
+					.search(request);
 			if (qResponse == null) {
 				throw new SearchNotResponseException();
 			}
-			Collection<QueryResult<Row>> result = qResponse.getResults();
-			FilterPaginatedList<Obj> list = new FilterPaginatedList<Obj>(
+			Collection<Row> result = qResponse.getResults();
+			FilterPaginatedList<Entity> list = new FilterPaginatedList<Entity>(
 					result.size());
 			if (result.size() > 0) {
 				try {
@@ -317,10 +332,10 @@ public abstract class SearchProvider<OSearcher, Req, QueClause, QueCondition, Ro
 					List<Object> idList = new ArrayList<Object>(result.size());
 					Object id;
 					Map<String, Object> map;
-					Iterator<QueryResult<Row>> iterator = result.iterator();
+					Iterator<Row> iterator = result.iterator();
 					int iCount = 0;
 					while (iterator.hasNext()) {
-						QueryResult<Row> qr = iterator.next();
+						Row qr = iterator.next();
 						map = qr.getFields();
 						id = map.get(this.primaryKeyColumnName);
 						if (id instanceof String) {
@@ -332,13 +347,13 @@ public abstract class SearchProvider<OSearcher, Req, QueClause, QueCondition, Ro
 									id.getClass() });
 						}
 						idList.add(id);
-						list.add((Obj) IDUtils.setObjectId(
+						list.add((Entity) IDUtils.setObjectId(
 								unknownObject.copy(), id));
 						resultOrderMap.put(id, iCount);
 						iCount++;
 					}
-					List<Obj> partialResult = null;
-					List<Obj> fullResult = new ArrayList<Obj>();
+					List<Entity> partialResult = null;
+					List<Entity> fullResult = new ArrayList<Entity>();
 					if (logger.isTraceEnabled()) {
 						logger.trace("Getting data from DB");
 					}
@@ -361,7 +376,7 @@ public abstract class SearchProvider<OSearcher, Req, QueClause, QueCondition, Ro
 							fullResult.addAll(partialResult);
 						}
 					}
-					for (Obj f : fullResult) {
+					for (Entity f : fullResult) {
 						list.set(resultOrderMap.get(IDUtils.getObjectId(f)), f);
 					}
 					if (logger.isDebugEnabled()) {
@@ -375,7 +390,8 @@ public abstract class SearchProvider<OSearcher, Req, QueClause, QueCondition, Ro
 			list.setObjectsPerPage(request.getPageSize());
 			list.setPageNumber(request.getPageNr());
 			if (request.hasSortParams()) {
-				SortParams sortParams = request.getSortParams();
+				List<SortParams> sorts = request.getSortParams();
+				SortParams sortParams = sorts.get(0);
 				list.setSortCriterion(sortParams.getSortParam());
 				list.setSortDirection(sortParams.isAsc() ? SortOrderEnum.ASCENDING
 						: SortOrderEnum.DESCENDING);
@@ -389,7 +405,7 @@ public abstract class SearchProvider<OSearcher, Req, QueClause, QueCondition, Ro
 				break;
 			}
 
-			return new SearchResult<Obj>(qResponse, list);
+			return new SearchResult<Row, Entity>(qResponse, list);
 		}
 	}
 

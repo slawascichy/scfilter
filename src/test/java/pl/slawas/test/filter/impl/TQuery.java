@@ -20,11 +20,12 @@ import pl.slawas.paging._IPagedQuery;
 import pl.slawas.test.entities.TIndex;
 import pl.slawas.test.mock.providers.TEntityMockProvider;
 
-public class TQuery implements _IPagedQuery<TQueryResult> {
+public class TQuery implements _IPagedQuery<TResultRow> {
 
 	private static final long serialVersionUID = -402776357435081923L;
 
-	final protected transient Logger logger = LoggerFactory.getLogger(getClass());
+	final protected transient Logger logger = LoggerFactory
+			.getLogger(getClass());
 
 	private final TSearchQueryClause queryClause;
 
@@ -32,17 +33,15 @@ public class TQuery implements _IPagedQuery<TQueryResult> {
 
 	private final PagingParams pagingParams;
 
-	private final SortParams sortParams;
+	private final List<SortParams> sortParams;
 
-	private List<TQueryResult> serachResult = new ArrayList<TQueryResult>();
+	private List<TResultRow> serachResult = new ArrayList<TResultRow>();
 
 	private boolean newSearch = true;
 
-	public TQuery(
-			Enumeration<TIndex> indexElements,
-			TSearchQueryClause queryClause,
-			PagingParams pagingParams,
-			SortParams sortParams) {
+	public TQuery(Enumeration<TIndex> indexElements,
+			TSearchQueryClause queryClause, PagingParams pagingParams,
+			List<SortParams> sortParams) {
 		super();
 		this.queryClause = queryClause;
 		this.indexElements = indexElements;
@@ -81,81 +80,101 @@ public class TQuery implements _IPagedQuery<TQueryResult> {
 				TIndex row = indexElements.nextElement();
 				boolean searchLogicResult = true;
 				if (queryClause != null) {
-					for (TQueryCondition clause : queryClause.getQueryClause().getClauseConditions()) {
-						String rowValue = TEntityMockProvider.Fields.valueOf(clause.getFieldName()).getValue(
-								row);
+					for (TQueryCondition clause : queryClause.getQueryClause()
+							.getClauseConditions()) {
+						String rowValue = TEntityMockProvider.Fields.valueOf(
+								clause.getFieldName()).getValue(row);
 						String searchedValue = clause.getValues()[0];
 						switch (clause.getOpType()) {
 						case EQ:
-							searchLogicResult = searchLogicResult &&
-									rowValue.equalsIgnoreCase(searchedValue);
+							searchLogicResult = searchLogicResult
+									&& rowValue.equalsIgnoreCase(searchedValue);
 							logger.trace("Czy rowne? ['{}', '{}'] : {}",
-									new Object[]
-								{ rowValue, searchedValue, searchLogicResult });
+									new Object[] { rowValue, searchedValue,
+											searchLogicResult });
 							break;
 						case GEQ:
-							searchLogicResult = searchLogicResult &&
-									(rowValue.compareToIgnoreCase(searchedValue) >= 0);
-							logger.trace("Czy wieksze lub rowne? ['{}', '{}'] : {}",
-									new Object[]
-								{ rowValue, searchedValue, searchLogicResult });
+							searchLogicResult = searchLogicResult
+									&& (rowValue
+											.compareToIgnoreCase(searchedValue) >= 0);
+							logger.trace(
+									"Czy wieksze lub rowne? ['{}', '{}'] : {}",
+									new Object[] { rowValue, searchedValue,
+											searchLogicResult });
 							break;
 						case GT:
-							searchLogicResult = searchLogicResult &&
-									(rowValue.compareToIgnoreCase(searchedValue) > 0);
+							searchLogicResult = searchLogicResult
+									&& (rowValue
+											.compareToIgnoreCase(searchedValue) > 0);
 							logger.trace("Czy wieksze od? ['{}', '{}'] : {}",
-									new Object[]
-								{ rowValue, searchedValue, searchLogicResult });
+									new Object[] { rowValue, searchedValue,
+											searchLogicResult });
 							break;
 						case LEQ:
-							searchLogicResult = searchLogicResult &&
-									(rowValue.compareToIgnoreCase(searchedValue) <= 0);
-							logger.trace("Czy mniejsze lub rowne? ['{}', '{}'] : {}",
-									new Object[]
-								{ rowValue, searchedValue, searchLogicResult });
+							searchLogicResult = searchLogicResult
+									&& (rowValue
+											.compareToIgnoreCase(searchedValue) <= 0);
+							logger.trace(
+									"Czy mniejsze lub rowne? ['{}', '{}'] : {}",
+									new Object[] { rowValue, searchedValue,
+											searchLogicResult });
 							break;
 						case LT:
-							searchLogicResult = searchLogicResult &&
-									(rowValue.compareToIgnoreCase(searchedValue) < 0);
+							searchLogicResult = searchLogicResult
+									&& (rowValue
+											.compareToIgnoreCase(searchedValue) < 0);
 							logger.trace("Czy mniejsze od? ['{}', '{}'] : {}",
-									new Object[]
-								{ rowValue, searchedValue, searchLogicResult });
+									new Object[] { rowValue, searchedValue,
+											searchLogicResult });
 							break;
 						case RSE:
-							searchLogicResult = searchLogicResult &&
-									(rowValue.compareToIgnoreCase(searchedValue) >= 0) &&
-									(rowValue.compareToIgnoreCase(clause.getValues()[1]) <= 0);
-							logger.trace("Czy zawarte ? ['{}', ['{}', '{}']] : {}",
-									new Object[]
-								{ rowValue, searchedValue, clause.getValues()[1], searchLogicResult });
+							searchLogicResult = searchLogicResult
+									&& (rowValue
+											.compareToIgnoreCase(searchedValue) > 0)
+									&& (rowValue.compareToIgnoreCase(clause
+											.getValues()[1]) < 0);
+							logger.trace(
+									"Czy zawarte ? ['{}', <'{}', '{}'>] : {}",
+									new Object[] { rowValue, searchedValue,
+											clause.getValues()[1],
+											searchLogicResult });
 							break;
 						case RSI:
-							searchLogicResult = searchLogicResult &&
-									(rowValue.compareToIgnoreCase(searchedValue) > 0) &&
-									(rowValue.compareToIgnoreCase(clause.getValues()[1]) < 0);
-							logger.trace("Czy zawarte ? ['{}', <'{}', '{}'>] : {}",
-									new Object[]
-								{ rowValue, searchedValue, clause.getValues()[1], searchLogicResult });
+							searchLogicResult = searchLogicResult
+									&& (rowValue
+											.compareToIgnoreCase(searchedValue) >= 0)
+									&& (rowValue.compareToIgnoreCase(clause
+											.getValues()[1]) <= 0);
+							logger.trace(
+									"Czy zawarte ? ['{}', ['{}', '{}']] : {}",
+									new Object[] { rowValue, searchedValue,
+											clause.getValues()[1],
+											searchLogicResult });
 							break;
 						case WS:
-							boolean isStarAtStart = searchedValue.startsWith("*");
+							boolean isStarAtStart = searchedValue
+									.startsWith("*");
 							boolean isStarAtEnd = searchedValue.endsWith("*");
 							if (isStarAtStart && isStarAtEnd) {
-								searchLogicResult = searchLogicResult &&
-										rowValue.toLowerCase().contains(searchedValue.toLowerCase());
+								searchLogicResult = searchLogicResult
+										&& rowValue.toLowerCase().contains(
+												searchedValue.toLowerCase());
 							} else if (isStarAtEnd) {
-								searchLogicResult = searchLogicResult &&
-										rowValue.toLowerCase().startsWith(searchedValue.toLowerCase());
+								searchLogicResult = searchLogicResult
+										&& rowValue.toLowerCase().startsWith(
+												searchedValue.toLowerCase());
 							} else if (isStarAtStart) {
-								searchLogicResult = searchLogicResult &&
-										rowValue.toLowerCase().endsWith(searchedValue.toLowerCase());
+								searchLogicResult = searchLogicResult
+										&& rowValue.toLowerCase().endsWith(
+												searchedValue.toLowerCase());
 							} else {
-								searchLogicResult = searchLogicResult &&
-										rowValue.equalsIgnoreCase(searchedValue);
+								searchLogicResult = searchLogicResult
+										&& rowValue
+												.equalsIgnoreCase(searchedValue);
 							}
 							logger.trace("Czy pelny tekst? ['{}', '{}'] : {}",
-									new Object[]
-								{ rowValue, searchedValue, searchLogicResult });
+									new Object[] { rowValue, searchedValue,
+											searchLogicResult });
 							break;
 						default:
 							searchLogicResult = false;
@@ -165,9 +184,10 @@ public class TQuery implements _IPagedQuery<TQueryResult> {
 				}
 
 				if (searchLogicResult) {
-					TQueryResult res = new TQueryResult(resultSize, 1);
+					TResultRow res = new TResultRow(resultSize, 1);
 					Map<String, Object> fields = new HashMap<String, Object>();
-					for (TEntityMockProvider.Fields f : TEntityMockProvider.Fields.values()) {
+					for (TEntityMockProvider.Fields f : TEntityMockProvider.Fields
+							.values()) {
 						fields.put(f.toString(), f.getValue(row));
 					}
 					res.setFields(fields);
@@ -178,73 +198,74 @@ public class TQuery implements _IPagedQuery<TQueryResult> {
 		}
 
 		/* obsluga sortowania */
-		if (sortParams != null && StringUtils.isNotBlank(sortParams.getSortParam())) {
-			TEntityMockProvider.Fields sortColumn = TEntityMockProvider.Fields.valueOf(sortParams.getSortParam());
-			for (TQueryResult sr : serachResult) {
-				switch (sortColumn) {
-				case id:
-					sr.setSortField(
-							StringUtils.isNotBlank((String) sr.getFields().get("id"))
-							? (String) sr.getFields().get("id")
-							: ""
-							);
-					break;
-				case name:
-					sr.setSortField(
-							StringUtils.isNotBlank((String) sr.getFields().get("name"))
-							? (String) sr.getFields().get("name")
-							: ""
-							);
-					break;
-				case price:
-					sr.setSortField(
-							StringUtils.isNotBlank((String) sr.getFields().get("price"))
-							? (String) sr.getFields().get("price")
-							: ""
-							);
-					break;
-				case date:
-					sr.setSortField(
-							StringUtils.isNotBlank((String) sr.getFields().get("date"))
-							? (String) sr.getFields().get("date")
-							: ""
-							);
-					break;
-				case user:
-					sr.setSortField(
-							StringUtils.isNotBlank((String) sr.getFields().get("user"))
-							? (String) sr.getFields().get("user")
-							: ""
-							);
-					break;
-				default:
-					break;
+		if (sortParams != null && !sortParams.isEmpty()) {
+			for (SortParams sortParam : sortParams) {
+				if (StringUtils.isNotBlank(sortParam.getSortParam())) {
+					TEntityMockProvider.Fields sortColumn = TEntityMockProvider.Fields
+							.valueOf(sortParam.getSortParam());
+					for (TResultRow sr : serachResult) {
+						switch (sortColumn) {
+						case id:
+							sr.setSortField(StringUtils.isNotBlank((String) sr
+									.getFields().get("id")) ? (String) sr
+									.getFields().get("id") : "");
+							break;
+						case name:
+							sr.setSortField(StringUtils.isNotBlank((String) sr
+									.getFields().get("name")) ? (String) sr
+									.getFields().get("name") : "");
+							break;
+						case price:
+							sr.setSortField(StringUtils.isNotBlank((String) sr
+									.getFields().get("price")) ? (String) sr
+									.getFields().get("price") : "");
+							break;
+						case date:
+							sr.setSortField(StringUtils.isNotBlank((String) sr
+									.getFields().get("date")) ? (String) sr
+									.getFields().get("date") : "");
+							break;
+						case user:
+							sr.setSortField(StringUtils.isNotBlank((String) sr
+									.getFields().get("user")) ? (String) sr
+									.getFields().get("user") : "");
+							break;
+						default:
+							break;
+						}
+					}
+					if (sortParam.isAsc()) {
+						Collections.sort(serachResult,
+								new Comparator<TResultRow>() {
+									public int compare(TResultRow d1,
+											TResultRow d2) {
+										String sort1 = d1.getSortField();
+										String sort2 = d2.getSortField();
+										if (sort1.equals(sort2)) {
+											return 0;
+										} else {
+											return (sort1
+													.compareToIgnoreCase(sort2));
+										}
+									}
+								});
+					} else {
+						Collections.sort(serachResult,
+								new Comparator<TResultRow>() {
+									public int compare(TResultRow d1,
+											TResultRow d2) {
+										String sort1 = d1.getSortField();
+										String sort2 = d2.getSortField();
+										if (sort1.equals(sort2)) {
+											return 0;
+										} else {
+											return 0 - sort1
+													.compareToIgnoreCase(sort2);
+										}
+									}
+								});
+					}
 				}
-			}
-			if (sortParams.isAsc()) {
-				Collections.sort(serachResult, new Comparator<TQueryResult>() {
-					public int compare(TQueryResult d1, TQueryResult d2) {
-						String sort1 = d1.getSortField();
-						String sort2 = d2.getSortField();
-						if (sort1.equals(sort2)) {
-							return 0;
-						} else {
-							return (sort1.compareToIgnoreCase(sort2));
-						}
-					}
-				});
-			} else {
-				Collections.sort(serachResult, new Comparator<TQueryResult>() {
-					public int compare(TQueryResult d1, TQueryResult d2) {
-						String sort1 = d1.getSortField();
-						String sort2 = d2.getSortField();
-						if (sort1.equals(sort2)) {
-							return 0;
-						} else {
-							return 0 - sort1.compareToIgnoreCase(sort2);
-						}
-					}
-				});
 			}
 		}
 
@@ -254,13 +275,13 @@ public class TQuery implements _IPagedQuery<TQueryResult> {
 		Integer lastRowPosition = resultSize - 1;
 
 		/* obsluga stronicowania */
-		List<TQueryResult> pagedResult = new ArrayList<TQueryResult>();
+		List<TResultRow> pagedResult = new ArrayList<TResultRow>();
 		int pageCounter = 0;
 		int rowCounter = 0;
 		int firstNumberOfRow = pagingParams.getCursorOfPage();
 		int lastNumberOfRow = firstNumberOfRow + pagingParams.getPageSize();
 
-		for (TQueryResult qr : serachResult) {
+		for (TResultRow qr : serachResult) {
 			if (rowCounter >= firstNumberOfRow && rowCounter < lastNumberOfRow) {
 				pagedResult.add(qr);
 				pageCounter++;
@@ -276,22 +297,15 @@ public class TQuery implements _IPagedQuery<TQueryResult> {
 		if (resultSize == 0)
 			message = ResultMessage.NO_DATA_FOUND;
 
-		return new TResult(
-				startPosition,
-				endPosition,
-				firstRowPosition,
-				resultSize,
-				lastRowPosition,
-				pagedResult,
-				message,
-				PagingParams.DEFAULT_PAGING_OFFSET,
-				pagingParams.getMaxPages());
+		return new TResult(startPosition, endPosition, firstRowPosition,
+				resultSize, lastRowPosition, pagedResult, message,
+				PagingParams.DEFAULT_PAGING_OFFSET, pagingParams.getMaxPages());
 
 	}
 
 	/**
 	 * @param newSearch
-	 *           the newSearch to set
+	 *            the newSearch to set
 	 */
 	public void setNewSearch(boolean newSearch) {
 		this.newSearch = newSearch;

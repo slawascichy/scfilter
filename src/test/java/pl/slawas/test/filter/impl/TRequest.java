@@ -1,5 +1,7 @@
 package pl.slawas.test.filter.impl;
 
+import java.util.List;
+
 import pl.slawas.filter.Request;
 import pl.slawas.filter.SearchQueryClause;
 import pl.slawas.filter.beans.SortParams;
@@ -15,10 +17,10 @@ public class TRequest extends
 	public TRequest(String indexName,
 			SearchQueryClause<TSearchQueryClause, TQueryCondition> queryClause,
 			PagingParams pagingParams) {
-		super(indexName, queryClause, pagingParams);
+		super(indexName, queryClause, pagingParams, 100000);
 	}
 
-	private SortParams sortParams;
+	private List<SortParams> sortParams;
 	/**
 	 * 
 	 */
@@ -30,12 +32,12 @@ public class TRequest extends
 	}
 
 	@Override
-	public SortParams getSortParams() {
+	public List<SortParams> getSortParams() {
 		return this.sortParams;
 	}
 
 	@Override
-	public void setSortParams(SortParams sortParams) {
+	public void setSortParams(List<SortParams> sortParams) {
 		this.sortParams = sortParams;
 	}
 

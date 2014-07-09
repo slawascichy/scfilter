@@ -241,7 +241,7 @@ public abstract class SearchQueryClause<QueClause, QueCondition> implements
 	 *            {@link Accuracy}
 	 */
 	protected abstract void addGTQueryClause(String fieldName,
-			String fieldValue, Accuracy accuracy);
+			Object fieldValue, Accuracy accuracy);
 
 	/**
 	 * Implementacja oddawania klauzuli "wartość mniejsza niż" (Lower There)
@@ -255,7 +255,7 @@ public abstract class SearchQueryClause<QueClause, QueCondition> implements
 	 *            {@link Accuracy}
 	 */
 	protected abstract void addLTQueryClause(String fieldName,
-			String fieldValue, Accuracy accuracy);
+			Object fieldValue, Accuracy accuracy);
 
 	/**
 	 * Implementacja oddawania klauzuli "wartość równa się" (Equals There)
@@ -269,7 +269,7 @@ public abstract class SearchQueryClause<QueClause, QueCondition> implements
 	 *            {@link Accuracy}
 	 */
 	protected abstract void addEQQueryClause(String fieldName,
-			String fieldValue, Accuracy accuracy);
+			Object fieldValue, Accuracy accuracy);
 
 	/**
 	 * Implementacja oddawania klauzuli "wartość większa lub równa" (Greater or
@@ -284,7 +284,7 @@ public abstract class SearchQueryClause<QueClause, QueCondition> implements
 	 *            {@link Accuracy}
 	 */
 	protected abstract void addGEQQueryClause(String fieldName,
-			String fieldValue, Accuracy accuracy);
+			Object fieldValue, Accuracy accuracy);
 
 	/**
 	 * Implementacja oddawania klauzuli "wartość mniejsza lub równa" (Greater or
@@ -299,7 +299,7 @@ public abstract class SearchQueryClause<QueClause, QueCondition> implements
 	 *            {@link Accuracy}
 	 */
 	protected abstract void addLEQQueryClause(String fieldName,
-			String fieldValue, Accuracy accuracy);
+			Object fieldValue, Accuracy accuracy);
 
 	/**
 	 * Implementacja oddawania klauzuli
@@ -317,7 +317,7 @@ public abstract class SearchQueryClause<QueClause, QueCondition> implements
 	 *            {@link Accuracy}
 	 */
 	protected abstract void addRSIQueryClause(String fieldName,
-			String fieldValueFrom, String fieldValueTo, Accuracy accuracy);
+			Object fieldValueFrom, Object fieldValueTo, Accuracy accuracy);
 
 	/**
 	 * Implementacja oddawania klauzuli
@@ -335,7 +335,7 @@ public abstract class SearchQueryClause<QueClause, QueCondition> implements
 	 *            {@link Accuracy}
 	 */
 	protected abstract void addRSEQueryClause(String fieldName,
-			String fieldValueFrom, String fieldValueTo, Accuracy accuracy);
+			Object fieldValueFrom, Object fieldValueTo, Accuracy accuracy);
 
 	/**
 	 * Implementacja oddawania klauzuli wyszukiwania "pełnotekstowego" (Wildcard
@@ -351,7 +351,7 @@ public abstract class SearchQueryClause<QueClause, QueCondition> implements
 	 *            {@link Accuracy}
 	 */
 	protected abstract void addWSQueryClause(String fieldName,
-			String fieldValue, Accuracy accuracy);
+			Object fieldValue, Accuracy accuracy);
 
 	/**
 	 * Implementacja oddawania klauzuli wyszukiwania "prostego" dla tekstu. W
@@ -367,7 +367,7 @@ public abstract class SearchQueryClause<QueClause, QueCondition> implements
 	 *            {@link Accuracy}
 	 */
 	protected abstract void addSimpleQueryClause(String fieldName,
-			String fieldValue, Accuracy accuracy);
+			Object fieldValue, Accuracy accuracy);
 
 	/**
 	 * Ponieważ na poziomie abstrakcji nie można odwoływać sie do abstrakcyjnego

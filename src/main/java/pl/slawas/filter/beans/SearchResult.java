@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.Enumeration;
 
 import pl.slawas.filter.QueryResponse;
+import pl.slawas.filter.ResultRow;
 import pl.slawas.paging.Page;
 import pl.slawas.paging.PagedResultException;
 import pl.slawas.paging.PagingParams;
@@ -17,14 +18,14 @@ import pl.slawas.paging._IPagingInfo;
  * @author Slawomir Cichy &lt;slawas@slawas.pl&gt;
  * @version $Revision: 1.4 $
  * 
- * @param <Obj>
+ * @param <Entity>
  */
-public class SearchResult<Obj> extends ResultSupport<Obj> implements
-		_IPagingInfo {
+public class SearchResult<Row extends ResultRow<Entity>, Entity> extends
+		ResultSupport<Entity> implements _IPagingInfo {
 
 	private static final long serialVersionUID = 8586577008473662383L;
 
-	private final QueryResponse<?> baseQueryResponse;
+	private final QueryResponse<Row, Entity> baseQueryResponse;
 
 	/**
 	 * 
@@ -34,8 +35,8 @@ public class SearchResult<Obj> extends ResultSupport<Obj> implements
 	 * @param list
 	 *            lista obiektów stanowiąca rezultat wyszukiwania
 	 */
-	public <Row> SearchResult(QueryResponse<Row> baseQueryResponse,
-			Collection<Obj> list) {
+	public SearchResult(QueryResponse<Row, Entity> baseQueryResponse,
+			Collection<Entity> list) {
 		super(baseQueryResponse.getStartPosition(), baseQueryResponse
 				.getEndPosition(), baseQueryResponse.getFirstRowPosition(),
 				baseQueryResponse.getResultSize(), baseQueryResponse
@@ -47,7 +48,7 @@ public class SearchResult<Obj> extends ResultSupport<Obj> implements
 
 	}
 
-	public QueryResponse<?> getBaseQueryResponse() {
+	public QueryResponse<Row, Entity> getBaseQueryResponse() {
 		return this.baseQueryResponse;
 	}
 

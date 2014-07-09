@@ -6,14 +6,14 @@ import java.util.TreeMap;
 
 /**
  * 
- * QueryResult - pojedynczy obiekt wiersza w wyniku zapytania, który został
+ * ResultRow - pojedynczy obiekt wiersza w wyniku zapytania, który został
  * otrzymany od wyszukiwacza.
  * 
  * @author Slawomir Cichy &lt;slawas@slawas.pl&gt;
  * @version $Revision: 1.2 $
  * 
  */
-public abstract class QueryResult<Row> implements Serializable {
+public abstract class ResultRow<Entity> implements Serializable {
 
 	private static final long serialVersionUID = -5210221106589109534L;
 
@@ -21,7 +21,7 @@ public abstract class QueryResult<Row> implements Serializable {
 	 * Obiekt orginalego rezultatu wyszukiwarki. Należy go wykorzystać do
 	 * implementacji pozostałych metod abstrakcyjnych.
 	 */
-	protected Row origResult;
+	protected Entity origResult;
 
 	/**
 	 * Id dokumentu w indeksie
@@ -40,20 +40,20 @@ public abstract class QueryResult<Row> implements Serializable {
 	 */
 	private Map<String, Object> fields;
 
-	public QueryResult() {
+	public ResultRow() {
 	}
 
 	/**
 	 * @param documentId
 	 * @param documentScore
 	 */
-	public QueryResult(Object documentId, float documentScore) {
+	public ResultRow(Object documentId, float documentScore) {
 		super();
 		this.documentId = documentId;
 		this.documentScore = documentScore;
 	}
 
-	public QueryResult(Row result) {
+	public ResultRow(Entity result) {
 		this.origResult = result;
 	}
 
@@ -85,7 +85,7 @@ public abstract class QueryResult<Row> implements Serializable {
 	 * 
 	 * @return the origResult
 	 */
-	public Row getOrigResult() {
+	public Entity getOrigResult() {
 		return origResult;
 	}
 
@@ -95,7 +95,7 @@ public abstract class QueryResult<Row> implements Serializable {
 	 * @param result
 	 *            oryginalny obiekt rezultatu
 	 */
-	public void setOrigResult(Row result) {
+	public void setOrigResult(Entity result) {
 		this.origResult = result;
 	}
 

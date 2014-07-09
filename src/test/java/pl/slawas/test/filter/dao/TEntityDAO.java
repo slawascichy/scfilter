@@ -11,7 +11,7 @@ import pl.slawas.test.mock.providers.TEntityMockProvider;
 
 public class TEntityDAO implements _ISearcherBaseDAO<TEntity> {
 
-	public List<TEntity> findByIdList(List<Object> idList)
+	public List<TEntity> findByIdList(List<? extends Object> idList)
 			throws SearcherException {
 		List<TEntity> result = new ArrayList<TEntity>();
 		for (Object id : idList) {
@@ -23,7 +23,7 @@ public class TEntityDAO implements _ISearcherBaseDAO<TEntity> {
 		return result;
 	}
 
-	public List<TEntity> findByIdList(List<Object> idList,
+	public List<TEntity> findByIdList(List<? extends Object> idList,
 			boolean resultIsForDump, PagingParams searcherPagingParams)
 			throws SearcherException {
 		return findByIdList(idList);

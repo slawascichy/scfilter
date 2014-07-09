@@ -29,60 +29,60 @@ public class TSearchQueryClause extends
 	}
 
 	@Override
-	protected void addEQQueryClause(String fieldName, String fieldValue,
+	protected void addEQQueryClause(String fieldName, Object fieldValue,
 			Accuracy accuracy) {
 		this.addClause(new TQueryCondition(OperationType.EQ, fieldName,
-				new String[] { fieldValue, null }));
+				new String[] { (String) fieldValue, null }));
 	}
 
 	@Override
-	protected void addGEQQueryClause(String fieldName, String fieldValue,
+	protected void addGEQQueryClause(String fieldName, Object fieldValue,
 			Accuracy accuracy) {
 		this.addClause(new TQueryCondition(OperationType.GEQ, fieldName,
-				new String[] { fieldValue, null }));
+				new String[] { (String) fieldValue, null }));
 	}
 
 	@Override
-	protected void addGTQueryClause(String fieldName, String fieldValue,
+	protected void addGTQueryClause(String fieldName, Object fieldValue,
 			Accuracy accuracy) {
 		this.addClause(new TQueryCondition(OperationType.GT, fieldName,
-				new String[] { fieldValue, null }));
+				new String[] { (String) fieldValue, null }));
 	}
 
 	@Override
-	protected void addLEQQueryClause(String fieldName, String fieldValue,
+	protected void addLEQQueryClause(String fieldName, Object fieldValue,
 			Accuracy accuracy) {
 		this.addClause(new TQueryCondition(OperationType.LEQ, fieldName,
-				new String[] { fieldValue, null }));
+				new String[] { (String) fieldValue, null }));
 
 	}
 
 	@Override
-	protected void addLTQueryClause(String fieldName, String fieldValue,
+	protected void addLTQueryClause(String fieldName, Object fieldValue,
 			Accuracy accuracy) {
 		this.addClause(new TQueryCondition(OperationType.LT, fieldName,
-				new String[] { fieldValue, null }));
+				new String[] { (String) fieldValue, null }));
 	}
 
 	@Override
-	protected void addRSEQueryClause(String fieldName, String fieldValueFrom,
-			String fieldValueTo, Accuracy accuracy) {
+	protected void addRSEQueryClause(String fieldName, Object fieldValueFrom,
+			Object fieldValueTo, Accuracy accuracy) {
 		this.addClause(new TQueryCondition(OperationType.RSE, fieldName,
-				new String[] { fieldValueFrom, fieldValueTo }));
+				new String[] { (String) fieldValueFrom, (String) fieldValueTo }));
 	}
 
 	@Override
-	protected void addRSIQueryClause(String fieldName, String fieldValueFrom,
-			String fieldValueTo, Accuracy accuracy) {
+	protected void addRSIQueryClause(String fieldName, Object fieldValueFrom,
+			Object fieldValueTo, Accuracy accuracy) {
 		this.addClause(new TQueryCondition(OperationType.RSI, fieldName,
-				new String[] { fieldValueFrom, fieldValueTo }));
+				new String[] { (String) fieldValueFrom, (String) fieldValueTo }));
 	}
 
 	@Override
-	protected void addWSQueryClause(String fieldName, String fieldValue,
+	protected void addWSQueryClause(String fieldName, Object fieldValue,
 			Accuracy accuracy) {
 		this.addClause(new TQueryCondition(OperationType.WS, fieldName,
-				new String[] { fieldValue, null }));
+				new String[] { (String) fieldValue, null }));
 	}
 
 	@Override
@@ -103,10 +103,10 @@ public class TSearchQueryClause extends
 	}
 
 	@Override
-	protected void addSimpleQueryClause(String fieldName, String fieldValue,
+	protected void addSimpleQueryClause(String fieldName, Object fieldValue,
 			Accuracy accuracy) {
 		this.addClause(new TQueryCondition(OperationType.EQ, fieldName,
-				new String[] { fieldValue, null }));
+				new String[] { (String) fieldValue, null }));
 	}
 
 }

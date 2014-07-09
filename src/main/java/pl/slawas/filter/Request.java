@@ -1,6 +1,7 @@
 package pl.slawas.filter;
 
 import java.io.Serializable;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,12 +43,15 @@ public abstract class Request<Req, QueClause, QueCondition> implements
 
 	protected final PagingParams pagingParams;
 
+	protected final Integer maxResults;
+
 	public Request(String indexName,
 			SearchQueryClause<QueClause, QueCondition> queryClause,
-			PagingParams pagingParams) {
+			PagingParams pagingParams, Integer maxResults) {
 		this.indexName = indexName;
 		this.queryClause = queryClause;
 		this.pagingParams = pagingParams;
+		this.maxResults = maxResults;
 	}
 
 	/**
@@ -63,7 +67,7 @@ public abstract class Request<Req, QueClause, QueCondition> implements
 	 * @param sortParams
 	 *            parametry sortowania
 	 */
-	public abstract void setSortParams(SortParams sortParams);
+	public abstract void setSortParams(List<SortParams> sortParams);
 
 	/**
 	 * Pobieranie paramerów sortowania, na potrzeby implementacji metody
@@ -73,7 +77,7 @@ public abstract class Request<Req, QueClause, QueCondition> implements
 	 * 
 	 * @return parametry sortowania
 	 */
-	public abstract SortParams getSortParams();
+	public abstract List<SortParams> getSortParams();
 
 	/**
 	 * Informacja czy w żądaniu wyniku, były parametry sortowania
@@ -83,7 +87,7 @@ public abstract class Request<Req, QueClause, QueCondition> implements
 	 *         w przeciwnym razie {@code false}.
 	 */
 	public boolean hasSortParams() {
-		return this.getSortParams() != null;
+		return this.getSortParams() != null && !this.getSortParams().isEmpty();
 	}
 
 	/**
@@ -133,6 +137,13 @@ public abstract class Request<Req, QueClause, QueCondition> implements
 	 */
 	public void setResultIsForDump(boolean resultIsForDump) {
 		this.resultIsForDump = resultIsForDump;
+	}
+
+	/**
+	 * @return the {@link #maxResults}
+	 */
+	public Integer getMaxResults() {
+		return maxResults;
 	}
 
 }

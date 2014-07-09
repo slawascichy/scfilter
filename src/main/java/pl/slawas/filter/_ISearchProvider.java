@@ -31,12 +31,12 @@ import pl.slawas.paging.PagingParams;
  *            klasa oryginalnej klauzuli warunku zapytania.
  * @param <Row>
  *            klasa odpowiadająca oryginalnemu wierszowi wyniku zapytania
- * @param <Obj>
+ * @param <Entity>
  *            klasa encji, której dotyczy wyszukiwanie
  * @param <DAO>
  *            klasa DAO encji
  */
-public interface _ISearchProvider<OSearcher, Req, QueClause, QueCondition, Row, Obj extends _ICopyable<Obj>, DAO extends _ISearcherBaseDAO<Obj>> {
+public interface _ISearchProvider<OSearcher, Req, QueClause, QueCondition, Row extends ResultRow<Entity>, Entity extends _ICopyable<Entity>, DAO extends _ISearcherBaseDAO<Entity>> {
 
 	/**
 	 * @return the dao
@@ -51,6 +51,8 @@ public interface _ISearchProvider<OSearcher, Req, QueClause, QueCondition, Row, 
 	 * 
 	 * @param queryClause
 	 *            obiekt klauzuli zapytania
+	 * @param maxResults
+	 *            maksymalna liczba wyników zapytania
 	 * @return wynik zapytania {@link SearchResult}, który zawiera:
 	 *         <ul>
 	 *         <li>lista elementów</li>
@@ -60,9 +62,9 @@ public interface _ISearchProvider<OSearcher, Req, QueClause, QueCondition, Row, 
 	 *         </ul>
 	 * @throws SearcherException
 	 */
-	public SearchResult<Obj> find(
-			SearchQueryClause<QueClause, QueCondition> queryClause)
-			throws SearcherException;
+	public SearchResult<Row, Entity> find(
+			SearchQueryClause<QueClause, QueCondition> queryClause,
+			Integer maxResults) throws SearcherException;
 
 	/**
 	 * Wyszukuje dokumenty w/g zadanej klauzuli zapytania. Domyślnie zostanie
@@ -75,6 +77,8 @@ public interface _ISearchProvider<OSearcher, Req, QueClause, QueCondition, Row, 
 	 * @param export
 	 *            jeżeli ustawione na <code>true</code>, wtedy zwracane są
 	 *            wszystkie znalezione elementy.
+	 * @param maxResults
+	 *            maksymalna liczba wyników zapytania
 	 * @return wynik zapytania {@link SearchResult}, który zawiera:
 	 *         <ul>
 	 *         <li>lista elementów</li>
@@ -84,9 +88,9 @@ public interface _ISearchProvider<OSearcher, Req, QueClause, QueCondition, Row, 
 	 *         </ul>
 	 * @throws SearcherException
 	 */
-	public SearchResult<Obj> find(
+	public SearchResult<Row, Entity> find(
 			SearchQueryClause<QueClause, QueCondition> queryClause,
-			boolean export) throws SearcherException;
+			boolean export, Integer maxResults) throws SearcherException;
 
 	/**
 	 * Wyszukuje dokumenty w/g zadanej klauzuli zapytania
@@ -95,6 +99,8 @@ public interface _ISearchProvider<OSearcher, Req, QueClause, QueCondition, Row, 
 	 *            obiekt klauzuli zapytania
 	 * @param page
 	 *            obiekt poszukiwanej strony rezultatu
+	 * @param maxResults
+	 *            maksymalna liczba wyników zapytania
 	 * @return wynik zapytania {@link SearchResult}, który zawiera:
 	 *         <ul>
 	 *         <li>lista elementów</li>
@@ -104,9 +110,9 @@ public interface _ISearchProvider<OSearcher, Req, QueClause, QueCondition, Row, 
 	 *         </ul>
 	 * @throws SearcherException
 	 */
-	public SearchResult<Obj> find(
-			SearchQueryClause<QueClause, QueCondition> queryClause, Page page)
-			throws SearcherException;
+	public SearchResult<Row, Entity> find(
+			SearchQueryClause<QueClause, QueCondition> queryClause, Page page,
+			Integer maxResults) throws SearcherException;
 
 	/**
 	 * Wyszukuje dokumenty w/g zadanej klauzuli zapytania. Domyślnie zostanie
@@ -120,6 +126,8 @@ public interface _ISearchProvider<OSearcher, Req, QueClause, QueCondition, Row, 
 	 *            element po którym należy sortować
 	 * @param sortDir
 	 *            kierunek sortowania. <b>"asc"</b> lub <b>"desc"</b>.
+	 * @param maxResults
+	 *            maksymalna liczba wyników zapytania
 	 * @return wynik zapytania {@link SearchResult}, który zawiera:
 	 *         <ul>
 	 *         <li>lista elementów</li>
@@ -129,9 +137,10 @@ public interface _ISearchProvider<OSearcher, Req, QueClause, QueCondition, Row, 
 	 *         </ul>
 	 * @throws SearcherException
 	 */
-	public SearchResult<Obj> find(
+	public SearchResult<Row, Entity> find(
 			SearchQueryClause<QueClause, QueCondition> queryClause,
-			String sortName, String sortDir) throws SearcherException;
+			String sortName, String sortDir, Integer maxResults)
+			throws SearcherException;
 
 	/**
 	 * Wyszukuje dokumenty w/g zadanej klauzuli zapytania. Domyślnie zostanie
@@ -148,6 +157,8 @@ public interface _ISearchProvider<OSearcher, Req, QueClause, QueCondition, Row, 
 	 * @param export
 	 *            jeżeli ustawione na <code>true</code>, wtedy zwracane są
 	 *            wszystkie znalezione elementy.
+	 * @param maxResults
+	 *            maksymalna liczba wyników zapytania
 	 * @return wynik zapytania {@link SearchResult}, który zawiera:
 	 *         <ul>
 	 *         <li>lista elementów</li>
@@ -157,9 +168,9 @@ public interface _ISearchProvider<OSearcher, Req, QueClause, QueCondition, Row, 
 	 *         </ul>
 	 * @throws SearcherException
 	 */
-	public SearchResult<Obj> find(
+	public SearchResult<Row, Entity> find(
 			SearchQueryClause<QueClause, QueCondition> queryClause,
-			String sortName, String sortDir, boolean export)
+			String sortName, String sortDir, boolean export, Integer maxResults)
 			throws SearcherException;
 
 	/**
@@ -173,6 +184,8 @@ public interface _ISearchProvider<OSearcher, Req, QueClause, QueCondition, Row, 
 	 *            Element po którym należy sortować
 	 * @param sortDir
 	 *            Kierunek sortowania. <b>"asc"</b> lub <b>"desc"</b>.
+	 * @param maxResults
+	 *            maksymalna liczba wyników zapytania
 	 * @return Obiekt {@link SearchResult}, który zawiera:
 	 *         <ul>
 	 *         <li>rezultat typu {@link List}, {@link PaginatedList}</li>
@@ -182,9 +195,10 @@ public interface _ISearchProvider<OSearcher, Req, QueClause, QueCondition, Row, 
 	 *         </ul>
 	 * @throws SearcherException
 	 */
-	public SearchResult<Obj> find(
+	public SearchResult<Row, Entity> find(
 			SearchQueryClause<QueClause, QueCondition> queryClause, Page page,
-			String sortName, String sortDir) throws SearcherException;
+			String sortName, String sortDir, Integer maxResults)
+			throws SearcherException;
 
 	/**
 	 * Wyszukuje elementy FixedAssetInventory przy pomocy WPLucene.
@@ -210,6 +224,8 @@ public interface _ISearchProvider<OSearcher, Req, QueClause, QueCondition, Row, 
 	 *            'page' powinien mieć możliwie maksymalne ustawienia, można go
 	 *            stworzyć np. za pomocą metody
 	 *            {@link SearchProvider#getDumpPage()}.
+	 * @param maxResults
+	 *            maksymalna liczba wyników zapytania
 	 * @return Obiekt {@link SearchResult}, który zawiera:
 	 *         <ul>
 	 *         <li>rezultat typu {@link List}, {@link PaginatedList}</li>
@@ -219,9 +235,9 @@ public interface _ISearchProvider<OSearcher, Req, QueClause, QueCondition, Row, 
 	 *         </ul>
 	 * @throws SearcherException
 	 */
-	public SearchResult<Obj> find(
+	public SearchResult<Row, Entity> find(
 			SearchQueryClause<QueClause, QueCondition> queryClause, Page page,
-			String sortName, String sortDir, boolean export)
+			String sortName, String sortDir, boolean export, Integer maxResults)
 			throws SearcherException;
 
 	public void setCacheUsage(CacheUsage cacheUsage);
@@ -239,7 +255,7 @@ public interface _ISearchProvider<OSearcher, Req, QueClause, QueCondition, Row, 
 	 * @return obiekt rezultatu wyszukiwania
 	 * @throws SearchNotResponseException
 	 */
-	public SearchResult<Obj> sendRequest(
+	public SearchResult<Row, Entity> sendRequest(
 			Request<Req, QueClause, QueCondition> request)
 			throws SearcherException;
 
@@ -295,9 +311,39 @@ public interface _ISearchProvider<OSearcher, Req, QueClause, QueCondition, Row, 
 	 */
 	public <T extends SearchQueryClause<QueClause, QueCondition>> T createNewQueryClauseInstance();
 
+	/**
+	 * 
+	 * @param queryClause
+	 *            klauzla zapytania
+	 * @param page
+	 *            Definicja strony (zobacz również uwagi dotyczące argumentu
+	 *            'export')
+	 * @param sortName
+	 *            Element po którym należy sortować
+	 * @param sortDir
+	 *            Kierunek sortowania. <b>"asc"</b> lub <b>"desc"</b>.
+	 * @param export
+	 *            Jeżeli ustawiony na <code>true</code>, wtedy parametr
+	 *            stronicowania ({@link PagingParams#getMaxCount()}) związny z
+	 *            maksymalną liczbą zwracanych wierszy, parametr stronicowania
+	 *            związany z maksymalną liczbą wierszy na stronie (
+	 *            {@link PagingParams#getMaxPageSize()}) oraz parametr rozmiaru
+	 *            strony ( {@link PagingParams#getPageSize()}) jest zależny od
+	 *            definicji strony przesłanej w argumencie 'page' (odpowiednio
+	 *            {@link Page#getSize()}). Dlatego też w tym przypadku argument
+	 *            'page' powinien mieć możliwie maksymalne ustawienia, można go
+	 *            stworzyć np. za pomocą metody
+	 *            {@link SearchProvider#getDumpPage()}.
+	 * @param downloadList
+	 * @param maxResults
+	 *            maksymalna liczba wyników zapytania
+	 * 
+	 * @return
+	 * @throws SearcherException
+	 */
 	public List<Object> find(
 			SearchQueryClause<QueClause, QueCondition> queryClause, Page page,
 			String sortName, String sortDir, boolean export,
-			boolean downloadList) throws SearcherException;
+			boolean downloadList, Integer maxResults) throws SearcherException;
 
 }

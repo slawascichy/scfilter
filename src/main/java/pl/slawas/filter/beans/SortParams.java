@@ -5,21 +5,21 @@ import java.io.Serializable;
 /**
  * 
  * SortParams
- *
+ * 
  * @author Slawomir Cichy &lt;slawas@slawas.pl&gt;
  * @version $Revision: 1.1 $
- *
+ * 
  */
-public class SortParams implements Serializable{
+public class SortParams implements Serializable {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -3531404513765211754L;
 
-	private String sortParam; 
-	
-	private boolean asc;
+	private String sortParam;
+
+	private boolean asc = true;
 
 	/**
 	 * @param sortParam
@@ -39,7 +39,8 @@ public class SortParams implements Serializable{
 	}
 
 	/**
-	 * @param sortParam the sortParam to set
+	 * @param sortParam
+	 *            the sortParam to set
 	 */
 	public void setSortParam(String sortParam) {
 		this.sortParam = sortParam;
@@ -53,12 +54,11 @@ public class SortParams implements Serializable{
 	}
 
 	/**
-	 * @param asc the asc to set
+	 * @param asc
+	 *            the asc to set
 	 */
 	public void setAsc(boolean asc) {
 		this.asc = asc;
 	}
-	
 
-	
 }

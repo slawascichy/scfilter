@@ -1,12 +1,13 @@
 package pl.slawas.test.filter.impl;
 
-import pl.slawas.filter.QueryResult;
+import pl.slawas.filter.ResultRow;
+import pl.slawas.test.entities.TEntity;
 
-public class TQueryResult extends QueryResult<TQueryResult> {
+public class TResultRow extends ResultRow<TEntity> {
 
 	private static final long serialVersionUID = 3010622803726455166L;
 
-	public TQueryResult() {
+	public TResultRow() {
 		super();
 	}
 
@@ -14,7 +15,7 @@ public class TQueryResult extends QueryResult<TQueryResult> {
 	 * @param docNum
 	 * @param docScore
 	 */
-	public TQueryResult(int docNum, float docScore) {
+	public TResultRow(int docNum, float docScore) {
 		super(docNum, docScore);
 	}
 
