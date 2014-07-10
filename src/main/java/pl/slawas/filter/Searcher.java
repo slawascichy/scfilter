@@ -112,7 +112,7 @@ public abstract class Searcher<Req, QueClause, QueCondition, Row extends ResultR
 	 * @param customPagingParams
 	 *            the {@link #customPagingParams} to set
 	 */
-	void setCustomPagingParams(PagingParams customPagingParams) {
+	public void setCustomPagingParams(PagingParams customPagingParams) {
 		if (!isSupportedCustomPagingParams())
 			throw new UnsupportedOperationException(
 					"Operacja modyfikacji parametrow stronicowania nie jest wspierana "
@@ -124,12 +124,12 @@ public abstract class Searcher<Req, QueClause, QueCondition, Row extends ResultR
 		return this.customPagingParams == null;
 	}
 
-	boolean restorePagingParams() {
+	public boolean restorePagingParams() {
 		this.customPagingParams = null;
 		return isSetCustomPagingParams();
 	}
 
-	protected boolean isSupportedCustomPagingParams() {
+	public boolean isSupportedCustomPagingParams() {
 		return false;
 	}
 
