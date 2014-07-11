@@ -67,4 +67,9 @@ public abstract class QueryResponse<Row extends ResultRow<Entity>, Entity>
 		return this.result.getStartPosition();
 	}
 
+	/* Overridden (non-Javadoc) */
+	public Long getExecutionTime() {
+		return this.result.getExecutionTime();
+	}
+
 }

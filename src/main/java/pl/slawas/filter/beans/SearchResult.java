@@ -43,7 +43,8 @@ public class SearchResult<Row extends ResultRow<Entity>, Entity> extends
 						.getLastRowPosition(), list, baseQueryResponse
 						.getMessage(), baseQueryResponse
 						.getAbsoluteFirstRowPosition(), baseQueryResponse
-						.getResultMaxPages());
+						.getResultMaxPages(), baseQueryResponse
+						.getExecutionTime());
 		this.baseQueryResponse = baseQueryResponse;
 
 	}

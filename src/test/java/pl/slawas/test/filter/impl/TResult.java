@@ -28,14 +28,16 @@ public class TResult extends ResultSupport<TResultRow> {
 	 *            absolutny pierwszy numer wiersza w wyniku zapytania
 	 * @param resultMaxPages
 	 *            predefiniowana maksymalna liczba stron w rezultacie.
+	 * @param executionTime
+	 *            czas wykonania zapytania (w milisekundach)
 	 */
 	public TResult(int startPosition, int endPosition,
 			Integer firstRowPosition, int resultSize, Integer lastRowPosition,
 			Collection<TResultRow> result, ResultMessage message,
-			int absoluteFirstRowPosition, int resultMaxPages) {
+			int absoluteFirstRowPosition, int resultMaxPages, Long executionTime) {
 		super(startPosition, endPosition, firstRowPosition, resultSize,
 				lastRowPosition, result, message, absoluteFirstRowPosition,
-				resultMaxPages);
+				resultMaxPages, executionTime);
 	}
 
 	@Override

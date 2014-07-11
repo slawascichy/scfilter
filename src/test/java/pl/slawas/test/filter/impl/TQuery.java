@@ -1,6 +1,7 @@
 package pl.slawas.test.filter.impl;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Enumeration;
@@ -75,6 +76,7 @@ public class TQuery implements _IPagedQuery<TResultRow> {
 		/** numer ostatniej pozycji na stronie */
 		int endPosition = pagingParams.getPage().getLastRowNumber();
 
+		Long startTime = Calendar.getInstance().getTimeInMillis();
 		if (newSearch) {
 			while (indexElements.hasMoreElements()) {
 				TIndex row = indexElements.nextElement();
@@ -268,6 +270,7 @@ public class TQuery implements _IPagedQuery<TResultRow> {
 				}
 			}
 		}
+		Long endTime = Calendar.getInstance().getTimeInMillis();
 
 		/** pierwsza pozycja rezultatu */
 		Integer firstRowPosition = 0;
@@ -299,7 +302,8 @@ public class TQuery implements _IPagedQuery<TResultRow> {
 
 		return new TResult(startPosition, endPosition, firstRowPosition,
 				resultSize, lastRowPosition, pagedResult, message,
-				PagingParams.DEFAULT_PAGING_OFFSET, pagingParams.getMaxPages());
+				PagingParams.DEFAULT_PAGING_OFFSET, pagingParams.getMaxPages(),
+				endTime - startTime);
 
 	}
 
