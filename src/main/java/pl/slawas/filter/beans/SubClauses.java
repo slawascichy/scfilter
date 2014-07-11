@@ -113,17 +113,29 @@ public class SubClauses<QueClause> implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		try {
+			
 			SubClauses<QueClause> other = (SubClauses<QueClause>) obj;
 			if (accuracy == null) {
 				if (other.accuracy != null)
 					return false;
 			} else if (!accuracy.equals(other.accuracy))
 				return false;
-			if (clauses == null) {
-				if (other.clauses != null)
-					return false;
-			} else if (!clauses.equals(other.clauses))
+			
+			if (this.clauses == null && other.clauses != null) {
 				return false;
+			}
+			if (this.clauses != null && other.clauses == null) {
+				return false;
+			}
+			if (this.clauses.size() != other.clauses.size()) {
+				return false;
+			}
+			for (QueClause clause : other.clauses) {
+				if (!this.clauses.contains(clause)) {
+					return false;
+				}
+			}
+
 		} catch (ClassCastException e) {
 			return false;
 		}

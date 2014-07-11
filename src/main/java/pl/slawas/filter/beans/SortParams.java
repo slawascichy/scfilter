@@ -2,6 +2,8 @@ package pl.slawas.filter.beans;
 
 import java.io.Serializable;
 
+import org.apache.commons.lang.StringUtils;
+
 /**
  * 
  * SortParams
@@ -59,6 +61,37 @@ public class SortParams implements Serializable {
 	 */
 	public void setAsc(boolean asc) {
 		this.asc = asc;
+	}
+
+	/* Overridden (non-Javadoc) */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + (asc ? 1231 : 1237);
+		result = prime * result
+				+ (StringUtils.isBlank(sortParam) ? 0 : sortParam.hashCode());
+		return result;
+	}
+
+	/* Overridden (non-Javadoc) */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		SortParams other = (SortParams) obj;
+		if (asc != other.asc)
+			return false;
+		if (StringUtils.isBlank(sortParam)) {
+			if (StringUtils.isNotBlank(other.sortParam))
+				return false;
+		} else if (!sortParam.equals(other.sortParam))
+			return false;
+		return true;
 	}
 
 }

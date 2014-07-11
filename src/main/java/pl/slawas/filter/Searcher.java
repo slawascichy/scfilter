@@ -69,7 +69,12 @@ public abstract class Searcher<Req, QueClause, QueCondition, Row extends ResultR
 			Request<Req, QueClause, QueCondition> request);
 
 	/**
-	 * Metoda budująca żądanie realizacji zapytania do wyszukiwacza
+	 * Metoda budująca żądanie realizacji zapytania do wyszukiwacza.
+	 * <p>
+	 * <font color="#DD0000#">Uwaga! Sami musimy zadbać o ewentualne
+	 * zablokowanie operacji aktualizacji pól wsyszukiwacza podczas generowanie
+	 * żądania zapytania </font>
+	 * </p>
 	 * 
 	 * @param indexName
 	 *            nazwa indeksu

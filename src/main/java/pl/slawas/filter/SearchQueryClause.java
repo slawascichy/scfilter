@@ -450,6 +450,7 @@ public abstract class SearchQueryClause<QueClause, QueCondition> implements
 	 * 
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -458,17 +459,41 @@ public abstract class SearchQueryClause<QueClause, QueCondition> implements
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		SearchQueryClause<?, ?> other = (SearchQueryClause<?, ?>) obj;
-		if (clauseConditions == null) {
-			if (other.clauseConditions != null)
+		try {
+			SearchQueryClause<QueClause, QueCondition> other = (SearchQueryClause<QueClause, QueCondition>) obj;
+
+			if (this.clauseConditions == null && other.clauseConditions != null) {
 				return false;
-		} else if (!clauseConditions.equals(other.clauseConditions))
-			return false;
-		if (subClauses == null) {
-			if (other.subClauses != null)
+			}
+			if (this.clauseConditions != null && other.clauseConditions == null) {
 				return false;
-		} else if (!subClauses.equals(other.subClauses))
+			}
+			if (this.clauseConditions.size() != other.clauseConditions.size()) {
+				return false;
+			}
+			for (QueCondition clauseCondition : other.clauseConditions) {
+				if (!this.clauseConditions.contains(clauseCondition)) {
+					return false;
+				}
+			}
+
+			if (this.subClauses == null && other.subClauses != null) {
+				return false;
+			}
+			if (this.subClauses != null && other.subClauses == null) {
+				return false;
+			}
+			if (this.subClauses.size() != other.subClauses.size()) {
+				return false;
+			}
+			for (SubClauses<QueCondition> subClause : other.subClauses) {
+				if (!this.subClauses.contains(subClause)) {
+					return false;
+				}
+			}
+		} catch (ClassCastException e) {
 			return false;
+		}
 		return true;
 	}
 
