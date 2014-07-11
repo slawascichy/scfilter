@@ -468,12 +468,15 @@ public abstract class SearchQueryClause<QueClause, QueCondition> implements
 			if (this.clauseConditions != null && other.clauseConditions == null) {
 				return false;
 			}
-			if (this.clauseConditions.size() != other.clauseConditions.size()) {
-				return false;
-			}
-			for (QueCondition clauseCondition : other.clauseConditions) {
-				if (!this.clauseConditions.contains(clauseCondition)) {
+			if (this.clauseConditions != null && other.clauseConditions != null) {
+				if (this.clauseConditions.size() != other.clauseConditions
+						.size()) {
 					return false;
+				}
+				for (QueCondition clauseCondition : other.clauseConditions) {
+					if (!this.clauseConditions.contains(clauseCondition)) {
+						return false;
+					}
 				}
 			}
 
@@ -483,14 +486,17 @@ public abstract class SearchQueryClause<QueClause, QueCondition> implements
 			if (this.subClauses != null && other.subClauses == null) {
 				return false;
 			}
-			if (this.subClauses.size() != other.subClauses.size()) {
-				return false;
-			}
-			for (SubClauses<QueCondition> subClause : other.subClauses) {
-				if (!this.subClauses.contains(subClause)) {
+			if (this.subClauses != null && other.subClauses != null) {
+				if (this.subClauses.size() != other.subClauses.size()) {
 					return false;
 				}
+				for (SubClauses<QueCondition> subClause : other.subClauses) {
+					if (!this.subClauses.contains(subClause)) {
+						return false;
+					}
+				}
 			}
+
 		} catch (ClassCastException e) {
 			return false;
 		}

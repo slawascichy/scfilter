@@ -121,6 +121,9 @@ public class SubClauses<QueClause> implements Serializable {
 			} else if (!accuracy.equals(other.accuracy))
 				return false;
 			
+			if (this.clauses == null && other.clauses == null) {
+				return true;
+			}
 			if (this.clauses == null && other.clauses != null) {
 				return false;
 			}
