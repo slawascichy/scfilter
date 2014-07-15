@@ -10,7 +10,7 @@ import pl.slawas.test.filter.dao.TEntityDAO;
 
 public class TSearchProvider
 		extends
-		SearchProvider<TSearcher, TRequest, TSearchQueryClause, TQueryCondition, TResultRow, TEntity, TEntityDAO> {
+		SearchProvider<TSearcher, TRequest, TSearchQueryClause, TQueryCondition, TEntity, TResultRow, TEntity, TEntityDAO> {
 
 	private static final long serialVersionUID = 5614733748662419679L;
 

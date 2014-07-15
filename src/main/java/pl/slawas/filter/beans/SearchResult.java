@@ -15,17 +15,22 @@ import pl.slawas.paging._IPagingInfo;
  * 
  * SearchResult - obiekt rezultatu wyszukiwania
  * 
- * @author Slawomir Cichy &lt;slawas@slawas.pl&gt;
- * @version $Revision: 1.4 $
+ * @author Sławomir Cichy &lt;slawas@slawas.pl&gt;
+ * @version $Revision: 1.1 $
  * 
+ * @param <RowObj>
+ *            klasa odpowiadająca oryginalnemu wierszowi wyniku zapytania
+ * @param <Row>
+ *            reprezentacja wiersza.
  * @param <Entity>
+ *            klasa encji, której dotyczy wyszukiwanie
  */
-public class SearchResult<Row extends ResultRow<Entity>, Entity> extends
-		ResultSupport<Entity> implements _IPagingInfo {
+public class SearchResult<RowObj, Row extends ResultRow<RowObj>, Entity>
+		extends ResultSupport<Entity> implements _IPagingInfo {
 
 	private static final long serialVersionUID = 8586577008473662383L;
 
-	private final QueryResponse<Row, Entity> baseQueryResponse;
+	private final QueryResponse<RowObj, Row, Entity> baseQueryResponse;
 
 	/**
 	 * 
@@ -35,7 +40,7 @@ public class SearchResult<Row extends ResultRow<Entity>, Entity> extends
 	 * @param list
 	 *            lista obiektów stanowiąca rezultat wyszukiwania
 	 */
-	public SearchResult(QueryResponse<Row, Entity> baseQueryResponse,
+	public SearchResult(QueryResponse<RowObj, Row, Entity> baseQueryResponse,
 			Collection<Entity> list) {
 		super(baseQueryResponse.getStartPosition(), baseQueryResponse
 				.getEndPosition(), baseQueryResponse.getFirstRowPosition(),
@@ -49,7 +54,7 @@ public class SearchResult<Row extends ResultRow<Entity>, Entity> extends
 
 	}
 
-	public QueryResponse<Row, Entity> getBaseQueryResponse() {
+	public QueryResponse<RowObj, Row, Entity> getBaseQueryResponse() {
 		return this.baseQueryResponse;
 	}
 

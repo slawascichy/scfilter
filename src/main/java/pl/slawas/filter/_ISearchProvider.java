@@ -29,14 +29,16 @@ import pl.slawas.paging.PagingParams;
  *            parametr może być taki sam jak parametr 'Que'.
  * @param <QueCondition>
  *            klasa oryginalnej klauzuli warunku zapytania.
- * @param <Row>
+ * @param <RowObj>
  *            klasa odpowiadająca oryginalnemu wierszowi wyniku zapytania
+ * @param <Row>
+ *            reprezentacja wiersza.
  * @param <Entity>
  *            klasa encji, której dotyczy wyszukiwanie
  * @param <DAO>
  *            klasa DAO encji
  */
-public interface _ISearchProvider<OSearcher, Req, QueClause, QueCondition, Row extends ResultRow<Entity>, Entity extends _ICopyable<Entity>, DAO extends _ISearcherBaseDAO<Entity>> {
+public interface _ISearchProvider<OSearcher, Req, QueClause, QueCondition, RowObj, Row extends ResultRow<RowObj>, Entity extends _ICopyable<Entity>, DAO extends _ISearcherBaseDAO<Entity>> {
 
 	/**
 	 * @return the dao
@@ -62,7 +64,7 @@ public interface _ISearchProvider<OSearcher, Req, QueClause, QueCondition, Row e
 	 *         </ul>
 	 * @throws SearcherException
 	 */
-	public SearchResult<Row, Entity> find(
+	public SearchResult<RowObj, Row, Entity> find(
 			SearchQueryClause<QueClause, QueCondition> queryClause,
 			Integer maxResults) throws SearcherException;
 
@@ -88,7 +90,7 @@ public interface _ISearchProvider<OSearcher, Req, QueClause, QueCondition, Row e
 	 *         </ul>
 	 * @throws SearcherException
 	 */
-	public SearchResult<Row, Entity> find(
+	public SearchResult<RowObj, Row, Entity> find(
 			SearchQueryClause<QueClause, QueCondition> queryClause,
 			boolean export, Integer maxResults) throws SearcherException;
 
@@ -110,7 +112,7 @@ public interface _ISearchProvider<OSearcher, Req, QueClause, QueCondition, Row e
 	 *         </ul>
 	 * @throws SearcherException
 	 */
-	public SearchResult<Row, Entity> find(
+	public SearchResult<RowObj, Row, Entity> find(
 			SearchQueryClause<QueClause, QueCondition> queryClause, Page page,
 			Integer maxResults) throws SearcherException;
 
@@ -137,7 +139,7 @@ public interface _ISearchProvider<OSearcher, Req, QueClause, QueCondition, Row e
 	 *         </ul>
 	 * @throws SearcherException
 	 */
-	public SearchResult<Row, Entity> find(
+	public SearchResult<RowObj, Row, Entity> find(
 			SearchQueryClause<QueClause, QueCondition> queryClause,
 			String sortName, String sortDir, Integer maxResults)
 			throws SearcherException;
@@ -168,7 +170,7 @@ public interface _ISearchProvider<OSearcher, Req, QueClause, QueCondition, Row e
 	 *         </ul>
 	 * @throws SearcherException
 	 */
-	public SearchResult<Row, Entity> find(
+	public SearchResult<RowObj, Row, Entity> find(
 			SearchQueryClause<QueClause, QueCondition> queryClause,
 			String sortName, String sortDir, boolean export, Integer maxResults)
 			throws SearcherException;
@@ -195,7 +197,7 @@ public interface _ISearchProvider<OSearcher, Req, QueClause, QueCondition, Row e
 	 *         </ul>
 	 * @throws SearcherException
 	 */
-	public SearchResult<Row, Entity> find(
+	public SearchResult<RowObj, Row, Entity> find(
 			SearchQueryClause<QueClause, QueCondition> queryClause, Page page,
 			String sortName, String sortDir, Integer maxResults)
 			throws SearcherException;
@@ -235,7 +237,7 @@ public interface _ISearchProvider<OSearcher, Req, QueClause, QueCondition, Row e
 	 *         </ul>
 	 * @throws SearcherException
 	 */
-	public SearchResult<Row, Entity> find(
+	public SearchResult<RowObj, Row, Entity> find(
 			SearchQueryClause<QueClause, QueCondition> queryClause, Page page,
 			String sortName, String sortDir, boolean export, Integer maxResults)
 			throws SearcherException;
@@ -255,7 +257,7 @@ public interface _ISearchProvider<OSearcher, Req, QueClause, QueCondition, Row e
 	 * @return obiekt rezultatu wyszukiwania
 	 * @throws SearchNotResponseException
 	 */
-	public SearchResult<Row, Entity> sendRequest(
+	public SearchResult<RowObj, Row, Entity> sendRequest(
 			Request<Req, QueClause, QueCondition> request)
 			throws SearcherException;
 

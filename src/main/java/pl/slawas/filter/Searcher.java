@@ -15,8 +15,8 @@ import pl.slawas.paging.PagingParams;
  * 
  * Searcher - klasa abstrakcyjna reprezentująca wyszukiwacza
  * 
- * @author Slawomir Cichy &lt;slawas@slawas.pl&gt;
- * @version $Revision: 1.3 $
+ * @author Sławomir Cichy &lt;slawas@slawas.pl&gt;
+ * @version $Revision: 1.1 $
  * 
  * @param <Req>
  *            klasa oryginlnego żądania wysłania zapytania
@@ -25,11 +25,15 @@ import pl.slawas.paging.PagingParams;
  *            parametr może być taki sam jak parametr 'Que'.
  * @param <QueCondition>
  *            klasa oryginalnego obiektu klauzuli warunku zapytania
+ * @param <RowObj>
+ *            klasa odpowiadająca oryginalnemu wierszowi wyniku zapytania
  * @param <Row>
+ *            reprezentacja wiersza.
  * @param <Entity>
+ *            klasa encji, której dotyczy wyszukiwanie
  */
 @SuppressWarnings("serial")
-public abstract class Searcher<Req, QueClause, QueCondition, Row extends ResultRow<Entity>, Entity>
+public abstract class Searcher<Req, QueClause, QueCondition, RowObj, Row extends ResultRow<RowObj>, Entity>
 		implements Serializable {
 
 	final protected transient Logger logger = LoggerFactory
@@ -65,7 +69,7 @@ public abstract class Searcher<Req, QueClause, QueCondition, Row extends ResultR
 	 *            zapytanie do wyszukiwacza
 	 * @return odpowiedz od wyszukiwacza
 	 */
-	public abstract QueryResponse<Row, Entity> search(
+	public abstract QueryResponse<RowObj, Row, Entity> search(
 			Request<Req, QueClause, QueCondition> request);
 
 	/**

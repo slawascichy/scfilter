@@ -46,18 +46,20 @@ import pl.slawas.paging.PagingParamsReadOnly;
  *            parametr może być taki sam jak parametr 'Que'.
  * @param <QueCondition>
  *            klasa oryginalnej klauzuli warunku zapytania.
- * @param <Row>
+ * @param <RowObj>
  *            klasa odpowiadająca oryginalnemu wierszowi wyniku zapytania
+ * @param <Row>
+ *            reprezentacja wiersza.
  * @param <Entity>
  *            klasa encji, której dotyczy wyszukiwanie
  * @param <DAO>
  *            klasa DAO encji
  */
 @SuppressWarnings("serial")
-public abstract class SearchProvider<OSearcher, Req, QueClause, QueCondition, Row extends ResultRow<Entity>, Entity extends _ICopyable<Entity>, DAO extends _ISearcherBaseDAO<Entity>>
+public abstract class SearchProvider<OSearcher, Req, QueClause, QueCondition, RowObj, Row extends ResultRow<RowObj>, Entity extends _ICopyable<Entity>, DAO extends _ISearcherBaseDAO<Entity>>
 		implements
 		Serializable,
-		_ISearchProvider<OSearcher, Req, QueClause, QueCondition, Row, Entity, DAO> {
+		_ISearchProvider<OSearcher, Req, QueClause, QueCondition, RowObj, Row, Entity, DAO> {
 
 	final protected transient Logger logger = LoggerFactory
 			.getLogger(getClass().getName());
@@ -88,7 +90,7 @@ public abstract class SearchProvider<OSearcher, Req, QueClause, QueCondition, Ro
 
 	protected final String primaryKeyColumnName;
 
-	protected final Searcher<Req, QueClause, QueCondition, Row, Entity> searcher;
+	protected final Searcher<Req, QueClause, QueCondition, RowObj, Row, Entity> searcher;
 
 	/**
 	 * Aby utworzyć wyszukiwarke trzeba podać nazwę indeksu.
@@ -96,7 +98,7 @@ public abstract class SearchProvider<OSearcher, Req, QueClause, QueCondition, Ro
 	 * @param indexName
 	 */
 	protected SearchProvider(
-			Searcher<Req, QueClause, QueCondition, Row, Entity> searcher,
+			Searcher<Req, QueClause, QueCondition, RowObj, Row, Entity> searcher,
 			String indexName, Entity unknownObject, DAO dao,
 			String primaryKeyColumnName) {
 		this.searcher = searcher;
@@ -107,14 +109,14 @@ public abstract class SearchProvider<OSearcher, Req, QueClause, QueCondition, Ro
 		init();
 	}
 
-	public SearchResult<Row, Entity> find(
+	public SearchResult<RowObj, Row, Entity> find(
 			SearchQueryClause<QueClause, QueCondition> queryClause,
 			Integer maxResults) throws SearcherException {
 		return find(queryClause, this.searcher.getPagingParams().getPage(),
 				null, null, false, maxResults);
 	}
 
-	public SearchResult<Row, Entity> find(
+	public SearchResult<RowObj, Row, Entity> find(
 			SearchQueryClause<QueClause, QueCondition> queryClause,
 			boolean export, Integer maxResults) throws SearcherException {
 		return this.find(queryClause,
@@ -123,13 +125,13 @@ public abstract class SearchProvider<OSearcher, Req, QueClause, QueCondition, Ro
 
 	}
 
-	public SearchResult<Row, Entity> find(
+	public SearchResult<RowObj, Row, Entity> find(
 			SearchQueryClause<QueClause, QueCondition> queryClause, Page page,
 			Integer maxResults) throws SearcherException {
 		return find(queryClause, page, null, null, false, maxResults);
 	}
 
-	public SearchResult<Row, Entity> find(
+	public SearchResult<RowObj, Row, Entity> find(
 			SearchQueryClause<QueClause, QueCondition> queryClause,
 			String sortName, String sortDir, Integer maxResults)
 			throws SearcherException {
@@ -137,7 +139,7 @@ public abstract class SearchProvider<OSearcher, Req, QueClause, QueCondition, Ro
 				sortName, sortDir, false, maxResults);
 	}
 
-	public SearchResult<Row, Entity> find(
+	public SearchResult<RowObj, Row, Entity> find(
 			SearchQueryClause<QueClause, QueCondition> queryClause,
 			String sortName, String sortDir, boolean export, Integer maxResults)
 			throws SearcherException {
@@ -146,7 +148,7 @@ public abstract class SearchProvider<OSearcher, Req, QueClause, QueCondition, Ro
 				export, maxResults);
 	}
 
-	public SearchResult<Row, Entity> find(
+	public SearchResult<RowObj, Row, Entity> find(
 			SearchQueryClause<QueClause, QueCondition> queryClause, Page page,
 			String sortName, String sortDir, Integer maxResults)
 			throws SearcherException {
@@ -155,7 +157,7 @@ public abstract class SearchProvider<OSearcher, Req, QueClause, QueCondition, Ro
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public SearchResult<Row, Entity> find(
+	public SearchResult<RowObj, Row, Entity> find(
 			SearchQueryClause<QueClause, QueCondition> queryClause, Page page,
 			String sortName, String sortDir, boolean export, Integer maxResults)
 			throws SearcherException {
@@ -248,7 +250,8 @@ public abstract class SearchProvider<OSearcher, Req, QueClause, QueCondition, Ro
 			logger.warn("Nie udalo sie ustwic parametrow strony.");
 		}
 
-		QueryResponse<Row, Entity> qResponse = this.searcher.search(request);
+		QueryResponse<RowObj, Row, Entity> qResponse = this.searcher
+				.search(request);
 		if (qResponse == null) {
 			throw new SearchNotResponseException();
 		}
@@ -313,11 +316,11 @@ public abstract class SearchProvider<OSearcher, Req, QueClause, QueCondition, Ro
 	private Object requestLock = new Object();
 
 	@SuppressWarnings("unchecked")
-	public SearchResult<Row, Entity> sendRequest(
+	public SearchResult<RowObj, Row, Entity> sendRequest(
 			Request<Req, QueClause, QueCondition> request)
 			throws SearcherException {
 		synchronized (requestLock) {
-			QueryResponse<Row, Entity> qResponse = this.searcher
+			QueryResponse<RowObj, Row, Entity> qResponse = this.searcher
 					.search(request);
 			if (qResponse == null) {
 				throw new SearchNotResponseException();
@@ -405,7 +408,7 @@ public abstract class SearchProvider<OSearcher, Req, QueClause, QueCondition, Ro
 				break;
 			}
 
-			return new SearchResult<Row, Entity>(qResponse, list);
+			return new SearchResult<RowObj, Row, Entity>(qResponse, list);
 		}
 	}
 

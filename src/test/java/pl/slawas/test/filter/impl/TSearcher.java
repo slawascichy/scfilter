@@ -15,7 +15,7 @@ import pl.slawas.test.mock.providers.TEntityMockProvider;
 
 public class TSearcher
 		extends
-		Searcher<TRequest, TSearchQueryClause, TQueryCondition, TResultRow, TEntity> {
+		Searcher<TRequest, TSearchQueryClause, TQueryCondition, TEntity, TResultRow, TEntity> {
 
 	/**
 	 * 

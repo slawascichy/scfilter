@@ -13,15 +13,19 @@ import pl.slawas.paging._IResultInfo;
 
 /**
  * 
- * QueryResponse abstrakacja odpowiadająca odpowiedzi wyszukiwacza
+ * QueryResponse abstrakcja odpowiadająca odpowiedzi wyszukiwacza
  * 
- * @author Slawomir Cichy &lt;slawas@slawas.pl&gt;
- * @version $Revision: 1.4 $
+ * @author Sławomir Cichy &lt;slawas@slawas.pl&gt;
+ * @version $Revision: 1.1 $
  * 
+ * @param <RowObj>
+ *            klasa odpowiadająca oryginalnemu wierszowi wyniku zapytania
  * @param <Row>
- *            klasa obiektu reprezentującego wiersz zwracanego wyniku
+ *            reprezentacja wiersza.
+ * @param <Entity>
+ *            klasa encji, której dotyczy wyszukiwanie
  */
-public abstract class QueryResponse<Row extends ResultRow<Entity>, Entity>
+public abstract class QueryResponse<RowObj, Row extends ResultRow<RowObj>, Entity>
 		extends PagedResultSupport<Row> implements _IResultInfo {
 
 	private static final long serialVersionUID = -5210221106589109534L;
