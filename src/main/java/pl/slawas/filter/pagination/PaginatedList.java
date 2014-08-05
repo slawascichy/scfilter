@@ -33,7 +33,7 @@ public interface PaginatedList<Obj> {
 
 	public abstract int getObjectsPerPage();
 
-	public abstract int getFullListSize();
+	public abstract Long getFullListSize();
 
 	public abstract String getSortCriterion();
 

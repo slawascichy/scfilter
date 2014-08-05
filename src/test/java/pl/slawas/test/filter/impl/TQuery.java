@@ -70,11 +70,11 @@ public class TQuery implements _IPagedQuery<TResultRow> {
 	public TResult execute() {
 
 		/** rozmiar rezultatu */
-		int resultSize = (serachResult != null ? serachResult.size() : 0);
+		Long resultSize = 0L + (serachResult != null ? serachResult.size() : 0);
 		/** numer pierwszej pozycji na stronie */
-		int startPosition = pagingParams.getPage().getFirstRowNumber();
+		Long startPosition = pagingParams.getPage().getFirstRowNumber();
 		/** numer ostatniej pozycji na stronie */
-		int endPosition = pagingParams.getPage().getLastRowNumber();
+		Long endPosition = pagingParams.getPage().getLastRowNumber();
 
 		Long startTime = Calendar.getInstance().getTimeInMillis();
 		if (newSearch) {
@@ -273,16 +273,16 @@ public class TQuery implements _IPagedQuery<TResultRow> {
 		Long endTime = Calendar.getInstance().getTimeInMillis();
 
 		/** pierwsza pozycja rezultatu */
-		Integer firstRowPosition = 0;
+		Long firstRowPosition = 0L;
 		/** ostatnia pozycja rezultatu */
-		Integer lastRowPosition = resultSize - 1;
+		Long lastRowPosition = resultSize - 1;
 
 		/* obsluga stronicowania */
 		List<TResultRow> pagedResult = new ArrayList<TResultRow>();
 		int pageCounter = 0;
 		int rowCounter = 0;
-		int firstNumberOfRow = pagingParams.getCursorOfPage();
-		int lastNumberOfRow = firstNumberOfRow + pagingParams.getPageSize();
+		Long firstNumberOfRow = pagingParams.getCursorOfPage();
+		Long lastNumberOfRow = firstNumberOfRow + pagingParams.getPageSize();
 
 		for (TResultRow qr : serachResult) {
 			if (rowCounter >= firstNumberOfRow && rowCounter < lastNumberOfRow) {

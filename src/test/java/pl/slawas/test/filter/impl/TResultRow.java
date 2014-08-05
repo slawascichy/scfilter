@@ -15,7 +15,7 @@ public class TResultRow extends ResultRow<TEntity> {
 	 * @param docNum
 	 * @param docScore
 	 */
-	public TResultRow(int docNum, float docScore) {
+	public TResultRow(Long docNum, float docScore) {
 		super(docNum, docScore);
 	}
 

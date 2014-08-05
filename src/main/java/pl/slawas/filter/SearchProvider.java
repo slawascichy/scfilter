@@ -171,8 +171,8 @@ public abstract class SearchProvider<OSearcher, Req, QueClause, QueCondition, Ro
 						.copy();
 				this.wasExport = true;
 			}
-			PagingParams dumpPagingParams = new PagingParams(page.getSize(), 0,
-					page.getSize(), page.getSize());
+			PagingParams dumpPagingParams = new PagingParams(page.getSize(),
+					0L, page.getSize(), 0L + page.getSize());
 			request.getPagingParams().copy(dumpPagingParams);
 			request.setResultIsForDump(true);
 			prepareIndexerParamsBeforeExport();
@@ -234,8 +234,8 @@ public abstract class SearchProvider<OSearcher, Req, QueClause, QueCondition, Ro
 						.copy();
 				this.wasExport = true;
 			}
-			PagingParams dumpPagingParams = new PagingParams(page.getSize(), 0,
-					page.getSize(), page.getSize());
+			PagingParams dumpPagingParams = new PagingParams(page.getSize(),
+					0L, page.getSize(), 0L + page.getSize());
 			request.getPagingParams().copy(dumpPagingParams);
 			request.setResultIsForDump(true);
 			prepareIndexerParamsBeforeExport();
@@ -361,7 +361,8 @@ public abstract class SearchProvider<OSearcher, Req, QueClause, QueCondition, Ro
 						logger.trace("Getting data from DB");
 					}
 					PagingParams pagingParamsForLoadEntities = new PagingParams(
-							MAX_IN_VALUES, 0, MAX_IN_VALUES, MAX_IN_VALUES);
+							MAX_IN_VALUES, 0L, MAX_IN_VALUES,
+							0L + MAX_IN_VALUES);
 					for (int i = 0; i <= result.size() / MAX_IN_VALUES; i++) {
 						int from = i * MAX_IN_VALUES;
 						int to = (i + 1) * MAX_IN_VALUES > result.size() ? result
@@ -417,7 +418,7 @@ public abstract class SearchProvider<OSearcher, Req, QueClause, QueCondition, Ro
 	}
 
 	public Page getDumpPage() {
-		return new Page(PagingParams.MAX_DOC_COUNT, Page.MIN_PAGE_NR);
+		return new Page(PagingParams.MAX_DOC_COUNT.intValue(), Page.MIN_PAGE_NR);
 	}
 
 	protected void prepareIndexerParamsAfterExport() {
@@ -431,7 +432,7 @@ public abstract class SearchProvider<OSearcher, Req, QueClause, QueCondition, Ro
 					pp);
 			this.searcher.setCustomPagingParams(pp);
 		}
-		this.searcher.getPagingParams().setOffset(0);
+		this.searcher.getPagingParams().setOffset(0L);
 		this.setCacheUsage(CacheUsage.REFRESH);
 	}
 

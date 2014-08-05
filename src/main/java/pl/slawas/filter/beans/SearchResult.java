@@ -78,7 +78,7 @@ public class SearchResult<RowObj, Row extends ResultRow<RowObj>, Entity>
 		return this.baseQueryResponse.getFirstPageInfo();
 	}
 
-	public Integer getFirstRowPositionOfPreviousResultRows() {
+	public Long getFirstRowPositionOfPreviousResultRows() {
 		return this.baseQueryResponse.getFirstRowPositionOfPreviousResultRows();
 	}
 

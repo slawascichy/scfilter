@@ -31,10 +31,11 @@ public class TResult extends ResultSupport<TResultRow> {
 	 * @param executionTime
 	 *            czas wykonania zapytania (w milisekundach)
 	 */
-	public TResult(int startPosition, int endPosition,
-			Integer firstRowPosition, int resultSize, Integer lastRowPosition,
+	public TResult(Long startPosition, Long endPosition, Long firstRowPosition,
+			Long resultSize, Long lastRowPosition,
 			Collection<TResultRow> result, ResultMessage message,
-			int absoluteFirstRowPosition, int resultMaxPages, Long executionTime) {
+			Long absoluteFirstRowPosition, Integer resultMaxPages,
+			Long executionTime) {
 		super(startPosition, endPosition, firstRowPosition, resultSize,
 				lastRowPosition, result, message, absoluteFirstRowPosition,
 				resultMaxPages, executionTime);

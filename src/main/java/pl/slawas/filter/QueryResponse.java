@@ -51,23 +51,23 @@ public abstract class QueryResponse<RowObj, Row extends ResultRow<RowObj>, Entit
 	 */
 	public abstract Collection<Row> getResults();
 
-	public int getAbsoluteFirstRowPosition() {
+	public Long getAbsoluteFirstRowPosition() {
 		return this.result.getAbsoluteFirstRowPosition();
 	}
 
-	public int getEndPosition() {
+	public Long getEndPosition() {
 		return this.result.getEndPosition();
 	}
 
-	public int getFirstRowPosition() {
+	public Long getFirstRowPosition() {
 		return this.result.getFirstRowPosition();
 	}
 
-	public int getResultMaxPages() {
+	public Integer getResultMaxPages() {
 		return this.result.getResultMaxPages();
 	}
 
-	public int getStartPosition() {
+	public Long getStartPosition() {
 		return this.result.getStartPosition();
 	}
 

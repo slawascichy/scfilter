@@ -23,7 +23,7 @@ public class FilterPaginatedList<E> extends ArrayList<E> implements
 
 	private static final long serialVersionUID = -2651083322173937767L;
 
-	private int fullListSize = PagingParams.DEFAULT_PAGING_OFFSET;
+	private Long fullListSize = PagingParams.DEFAULT_PAGING_OFFSET;
 
 	private int objectsPerPage = Page.DEFAULT_PAGE_SIZE;
 
@@ -45,11 +45,11 @@ public class FilterPaginatedList<E> extends ArrayList<E> implements
 		super(collection);
 	}
 
-	public int getFullListSize() {
+	public Long getFullListSize() {
 		return fullListSize;
 	}
 
-	public void setFullListSize(int fullListSize) {
+	public void setFullListSize(Long fullListSize) {
 		this.fullListSize = fullListSize;
 	}
 
