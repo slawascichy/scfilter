@@ -43,15 +43,15 @@ public abstract class Request<Req, QueClause, QueCondition> implements
 
 	protected final PagingParams pagingParams;
 
-	protected final Integer maxResults;
-
 	public Request(String indexName,
 			SearchQueryClause<QueClause, QueCondition> queryClause,
 			PagingParams pagingParams, Integer maxResults) {
 		this.indexName = indexName;
 		this.queryClause = queryClause;
 		this.pagingParams = pagingParams;
-		this.maxResults = maxResults;
+		if (maxResults.longValue() != this.pagingParams.getMaxCount()) {
+			this.pagingParams.setMaxCount(maxResults.longValue());
+		}
 	}
 
 	/**
@@ -143,7 +143,6 @@ public abstract class Request<Req, QueClause, QueCondition> implements
 	 * @return the {@link #maxResults}
 	 */
 	public Integer getMaxResults() {
-		return maxResults;
+		return this.pagingParams.getMaxCount().intValue();
 	}
-
 }

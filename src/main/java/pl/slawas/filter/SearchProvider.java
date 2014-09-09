@@ -78,8 +78,6 @@ public abstract class SearchProvider<OSearcher, Req, QueClause, QueCondition, Ro
 
 	private boolean wasExport = false;
 
-	private PagingParams pagingParamsBeforeExport;
-
 	public DAO getDao() {
 		return dao;
 	}
@@ -167,17 +165,11 @@ public abstract class SearchProvider<OSearcher, Req, QueClause, QueCondition, Ro
 				maxResults);
 		if (export) {
 			if (!this.wasExport) {
-				this.pagingParamsBeforeExport = searcher.getPagingParams()
-						.copy();
 				this.wasExport = true;
 			}
-			PagingParams dumpPagingParams = new PagingParams(page.getSize(),
-					0L, page.getSize(), 0L + page.getSize());
-			request.getPagingParams().copy(dumpPagingParams);
 			request.setResultIsForDump(true);
 			prepareIndexerParamsBeforeExport();
 		} else if (this.wasExport) {
-			request.getPagingParams().copy(pagingParamsBeforeExport);
 			this.wasExport = false;
 			request.setResultIsForDump(false);
 			prepareIndexerParamsAfterExport();
@@ -230,17 +222,13 @@ public abstract class SearchProvider<OSearcher, Req, QueClause, QueCondition, Ro
 				maxResults);
 		if (export) {
 			if (!this.wasExport) {
-				this.pagingParamsBeforeExport = searcher.getPagingParams()
-						.copy();
 				this.wasExport = true;
 			}
-			PagingParams dumpPagingParams = new PagingParams(page.getSize(),
-					0L, page.getSize(), 0L + page.getSize());
-			request.getPagingParams().copy(dumpPagingParams);
+			System.out.println(" --> SearchPrivider.find: "
+					+ searcher.getPagingParams());
 			request.setResultIsForDump(true);
 			prepareIndexerParamsBeforeExport();
 		} else if (this.wasExport) {
-			request.getPagingParams().copy(pagingParamsBeforeExport);
 			this.wasExport = false;
 			request.setResultIsForDump(false);
 			prepareIndexerParamsAfterExport();
