@@ -281,7 +281,7 @@ public abstract class SearchProvider<OSearcher, Req, QueClause, QueCondition, Ro
 	}
 
 	public void setCacheUsage(CacheUsage cacheUsage) {
-		logger.debug("Ustawiam uzycie kesza na {}", cacheUsage);
+		logger.debug("Zmieniam uzycie kesza na {}", cacheUsage);
 		this.searcher.setCacheUsage(cacheUsage);
 	}
 
@@ -436,8 +436,52 @@ public abstract class SearchProvider<OSearcher, Req, QueClause, QueCondition, Ro
 	}
 
 	public void setCustomPagingParams(PagingParams customPagingParams) {
+		PagingParams currParams = this.searcher.getPagingParams();
+		boolean cache2Refresh = (currParams != null ? !equals(
+				customPagingParams, currParams) : true);
 		this.searcher.setCustomPagingParams(customPagingParams);
-		this.setCacheUsage(CacheUsage.REFRESH);
+		if (cache2Refresh) {
+			this.setCacheUsage(CacheUsage.REFRESH);
+		} else if (logger.isDebugEnabled()) {
+			logger.debug(
+					"NIE zmieniam uzycia kesza przez wyszukiwarke... ({})",
+					this.searcher.getCacheUsage());
+		}
+	}
+
+	/**
+	 * Porównanie dwóch ustawień stronicowania pod kątem potrzeby ponownego
+	 * odpytania źródła danych.
+	 * 
+	 * @param obj
+	 *            pierwszy obiekt stronicowania
+	 * @param other
+	 *            drugi obiekt stronicowania
+	 * @return
+	 */
+	private boolean equals(PagingParams obj, PagingParams other) {
+		if (obj == null)
+			return false;
+		if (other == null)
+			return false;
+		if (obj.getMaxCount() == null)
+			if (other.getMaxCount() != null)
+				return false;
+			else if (!(obj.getMaxCount().equals(other.getMaxCount())))
+				return false;
+		if (obj.getMaxPages() != other.getMaxPages())
+			return false;
+		if (obj.getMaxPageSize() != other.getMaxPageSize())
+			return false;
+		if (obj.getOffset() == null)
+			if (other.getOffset() != null)
+				return false;
+			else if (!(obj.getOffset().equals(other.getOffset())))
+				return false;
+		if (obj.getPageSize() != other.getPageSize()) {
+			return false;
+		}
+		return true;
 	}
 
 	public void restorePagingParams() {
