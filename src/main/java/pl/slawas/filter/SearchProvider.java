@@ -389,6 +389,9 @@ public abstract class SearchProvider<OSearcher, Req, QueClause, QueCondition, Ro
 						: SortOrderEnum.DESCENDING);
 			}
 
+			if (logger.isDebugEnabled()) {
+				logger.debug("Przywracam uzycie kesza...");
+			}
 			switch (this.searcher.getCacheUsage()) {
 			case REFRESH:
 				this.searcher.setCacheUsage(CacheUsage.TO_USE);
