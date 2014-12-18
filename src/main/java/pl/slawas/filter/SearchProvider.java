@@ -11,6 +11,7 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import pl.slawas.common.cache.CacheUsage;
 import pl.slawas.entities.IDUtils;
 import pl.slawas.entities.IDUtilsErrorException;
 import pl.slawas.entities._ICopyable;
@@ -18,7 +19,6 @@ import pl.slawas.filter.beans.FilterPaginatedList;
 import pl.slawas.filter.beans.IndexFieldDefinition;
 import pl.slawas.filter.beans.SearchResult;
 import pl.slawas.filter.beans.SortParams;
-import pl.slawas.filter.cache.CacheUsage;
 import pl.slawas.filter.dao._ISearcherBaseDAO;
 import pl.slawas.filter.exceptions.SearchNotResponseException;
 import pl.slawas.filter.exceptions.SearchObjectIdException;

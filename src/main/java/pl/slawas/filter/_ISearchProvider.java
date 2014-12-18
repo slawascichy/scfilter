@@ -3,9 +3,9 @@ package pl.slawas.filter;
 import java.util.List;
 import java.util.Map;
 
+import pl.slawas.common.cache.CacheUsage;
 import pl.slawas.entities._ICopyable;
 import pl.slawas.filter.beans.SearchResult;
-import pl.slawas.filter.cache.CacheUsage;
 import pl.slawas.filter.dao._ISearcherBaseDAO;
 import pl.slawas.filter.exceptions.SearchNotResponseException;
 import pl.slawas.filter.exceptions.SearcherException;

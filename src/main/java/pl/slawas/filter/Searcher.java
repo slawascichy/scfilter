@@ -6,8 +6,8 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import pl.slawas.common.cache.CacheUsage;
 import pl.slawas.filter.beans.SortParams;
-import pl.slawas.filter.cache.CacheUsage;
 import pl.slawas.paging.Page;
 import pl.slawas.paging.PagingParams;
 
