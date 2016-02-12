@@ -13,7 +13,7 @@ import java.util.Set;
  * @version $Revision: 1.1 $
  * 
  * @param <QueClause>
- *           klasa oryginalnej implementacji klauzuli zapyania
+ *            klasa oryginalnej implementacji klauzuli zapyania
  */
 public class SubClauses<QueClause> implements Serializable {
 
@@ -36,9 +36,9 @@ public class SubClauses<QueClause> implements Serializable {
 	/**
 	 * 
 	 * @param clauses
-	 *           lista klauzul zapytań zebranych do podzapytania podzapytanie
+	 *            lista klauzul zapytań zebranych do podzapytania podzapytanie
 	 * @param accuracy
-	 *           trafność z jaką ma być spełniony ogólny wynik podzapytania
+	 *            trafność z jaką ma być spełniony ogólny wynik podzapytania
 	 */
 	public SubClauses(Set<QueClause> clauses, Accuracy accuracy) {
 		this.clauses = clauses;
@@ -55,7 +55,7 @@ public class SubClauses<QueClause> implements Serializable {
 
 	/**
 	 * @param clauses
-	 *           the clauses to set
+	 *            the clauses to set
 	 */
 	public void setClauses(Set<QueClause> clauses) {
 		this.clauses = clauses;
@@ -70,7 +70,7 @@ public class SubClauses<QueClause> implements Serializable {
 
 	/**
 	 * @param accuracy
-	 *           the accuracy to set
+	 *            the accuracy to set
 	 */
 	public void setAccuracy(Accuracy accuracy) {
 		this.accuracy = accuracy;
@@ -93,7 +93,8 @@ public class SubClauses<QueClause> implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((accuracy == null) ? 0 : accuracy.hashCode());
+		result = prime * result
+				+ ((accuracy == null) ? 0 : accuracy.hashCode());
 		result = prime * result + ((clauses == null) ? 0 : clauses.hashCode());
 		return result;
 	}
@@ -106,21 +107,26 @@ public class SubClauses<QueClause> implements Serializable {
 	@SuppressWarnings("unchecked")
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
+		if (this == obj) {
 			return true;
-		if (obj == null)
+		}
+		if (obj == null) {
 			return false;
-		if (getClass() != obj.getClass())
+		}
+		if (getClass() != obj.getClass()) {
 			return false;
+		}
 		try {
-			
+
 			SubClauses<QueClause> other = (SubClauses<QueClause>) obj;
 			if (accuracy == null) {
-				if (other.accuracy != null)
+				if (other.accuracy != null) {
 					return false;
-			} else if (!accuracy.equals(other.accuracy))
+				}
+			} else if (!accuracy.equals(other.accuracy)) {
 				return false;
-			
+			}
+
 			if (this.clauses == null && other.clauses == null) {
 				return true;
 			}
@@ -130,7 +136,8 @@ public class SubClauses<QueClause> implements Serializable {
 			if (this.clauses != null && other.clauses == null) {
 				return false;
 			}
-			if (this.clauses.size() != other.clauses.size()) {
+			if ((this.clauses == null ? 0 : this.clauses.size()) != (other.clauses == null ? 0
+					: other.clauses.size())) {
 				return false;
 			}
 			for (QueClause clause : other.clauses) {

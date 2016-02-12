@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -107,9 +108,11 @@ public abstract class SearchQueryClause<QueClause, QueCondition> implements
 	 */
 	private SearchQueryClause<QueClause, QueCondition> addQueryParam(
 			SearchQueryClause<QueClause, QueCondition> query, QueryParam param) {
-		String indexFieldName = this.paramsMap.get(param.getFieldName())
-				.getIndexValueFieldName();
-		if (query != null && param != null) {
+
+		if (query != null && param != null
+				&& StringUtils.isNotBlank(param.getFieldName())) {
+			String indexFieldName = this.paramsMap.get(param.getFieldName())
+					.getIndexValueFieldName();
 			switch (param.getOperationType()) {
 			case GT: // (">", "większa", "gt"),
 				query.addGTQueryClause(indexFieldName, param.getFrom(),
