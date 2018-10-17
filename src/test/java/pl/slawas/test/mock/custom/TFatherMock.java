@@ -19,7 +19,7 @@ import pl.slawas.test.mock.TableInfoMock;
  */
 public class TFatherMock implements TableInfoMock {
 
-	private final static String tableName = "FATHERS";
+	private static final String tableName = "FATHERS";
 
 	/**
 	 * @return the tableName
@@ -53,11 +53,11 @@ public class TFatherMock implements TableInfoMock {
 	// UPDATE /*+ */ FATHERS SET FATHER_ID = ?,FATHER_TYPE = ?,PARENT_NAME = ?
 	// WHERE FATHER_ID = ? AND FATHER_TYPE = ?
 
-	private final static String insertSQL = "INSERT /*+ */ INTO FATHERS(FATHER_ID,FATHER_TYPE,PARENT_NAME) values (?,?,?)";
+	private static final String insertSQL = "INSERT /*+ */ INTO FATHERS(FATHER_ID,FATHER_TYPE,PARENT_NAME) values (?,?,?)";
 
-	private final static String updateSQL = "UPDATE /*+ */ FATHERS SET FATHER_ID = ?,FATHER_TYPE = ?,PARENT_NAME = ? WHERE FATHER_ID = ? AND FATHER_TYPE = ?";
+	private static final String updateSQL = "UPDATE /*+ */ FATHERS SET FATHER_ID = ?,FATHER_TYPE = ?,PARENT_NAME = ? WHERE FATHER_ID = ? AND FATHER_TYPE = ?";
 
-	private final static String deleteSQL = "DELETE /*+ */ FROM FATHERS WHERE FATHER_ID = ? AND FATHER_TYPE = ?";
+	private static final String deleteSQL = "DELETE /*+ */ FROM FATHERS WHERE FATHER_ID = ? AND FATHER_TYPE = ?";
 
 	/**
 	 * @return the deleteSQL

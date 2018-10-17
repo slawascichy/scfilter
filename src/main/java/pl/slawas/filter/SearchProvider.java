@@ -72,7 +72,7 @@ public abstract class SearchProvider<OSearcher, Req, QueClause, QueCondition, Ro
 	 * parametru została wyznaczona na podstawie doświadzczenia i {@code 500}
 	 * daje optyymalny wynik.
 	 */
-	public final static int MAX_IN_VALUES = 500;
+	public static final int MAX_IN_VALUES = 500;
 
 	protected DAO dao;
 

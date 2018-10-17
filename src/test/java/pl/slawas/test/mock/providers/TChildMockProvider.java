@@ -71,7 +71,7 @@ public class TChildMockProvider {
 	 * @param row
 	 * @param child
 	 */
-	public final static void setBirthDayAndCalculateAge(
+	public static final void setBirthDayAndCalculateAge(
 			Date date,
 			TChild child) {
 		Calendar now = Calendar.getInstance();

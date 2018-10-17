@@ -23,7 +23,7 @@ import pl.slawas.test.mock.TableInfoMock;
  */
 public class TChildWithLobMock implements TableInfoMock {
 
-	private final static String tableName = "CHILDREN_WITH_LOB";
+	private static final String tableName = "CHILDREN_WITH_LOB";
 
 	/**
 	 * @return the tableName
@@ -69,11 +69,11 @@ public class TChildWithLobMock implements TableInfoMock {
 	// UPDATE /*+ */ CHILDREN SET CHILD_ID = ?,name = ?,age = ?,birthDay =
 	// ?,CH_MOTHER_ID = ?,CH_FATHER_ID = ?,CH_FATHER_TYPE = ? WHERE CHILD_ID = ?
 
-	private final static String insertSQL = "INSERT /*+ */ INTO CHILDREN_WITH_LOB(CHILD_ID,name,age,birthDay,CH_MOTHER_ID,CH_FATHER_ID,CH_FATHER_TYPE) values (?,?,?,?,?,?,?)";
+	private static final String insertSQL = "INSERT /*+ */ INTO CHILDREN_WITH_LOB(CHILD_ID,name,age,birthDay,CH_MOTHER_ID,CH_FATHER_ID,CH_FATHER_TYPE) values (?,?,?,?,?,?,?)";
 
-	private final static String updateSQL = "UPDATE /*+ */ CHILDREN_WITH_LOB SET CHILD_ID = ?,name = ?,age = ?,birthDay = ?,CH_MOTHER_ID = ?,CH_FATHER_ID = ?,CH_FATHER_TYPE = ? WHERE CHILD_ID = ?";
+	private static final String updateSQL = "UPDATE /*+ */ CHILDREN_WITH_LOB SET CHILD_ID = ?,name = ?,age = ?,birthDay = ?,CH_MOTHER_ID = ?,CH_FATHER_ID = ?,CH_FATHER_TYPE = ? WHERE CHILD_ID = ?";
 
-	private final static String deleteSQL = "DELETE /*+ */ FROM CHILDREN_WITH_LOB WHERE CHILD_ID = ?";
+	private static final String deleteSQL = "DELETE /*+ */ FROM CHILDREN_WITH_LOB WHERE CHILD_ID = ?";
 
 	/**
 	 * @return the deleteSQL

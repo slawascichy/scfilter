@@ -35,15 +35,15 @@ public class TChildWithLob implements Serializable {
 	/**
 	 * kod wartości "podpisał"
 	 */
-	public final static String SIGNED_CODE = "1";
+	public static final String SIGNED_CODE = "1";
 
 	/**
 	 * kod wartości "nie podpisał"
 	 */
-	public final static String NOT_SIGNED_CODE = "0";
+	public static final String NOT_SIGNED_CODE = "0";
 	
 	@Transient
-	final static private Logger logger = LoggerFactory
+	static final private Logger logger = LoggerFactory
 			.getLogger(TChildWithLob.class);
 
 	@Id

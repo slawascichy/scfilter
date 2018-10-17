@@ -16,7 +16,7 @@ import pl.slawas.test.mock.TableInfoMock;
  */
 public class TChildSetErrorMock implements TableInfoMock {
 
-	private final static String tableName = "TEST_ERROR";
+	private static final String tableName = "TEST_ERROR";
 
 	/**
 	 * @return the tableName
@@ -59,11 +59,11 @@ public class TChildSetErrorMock implements TableInfoMock {
 	// UPDATE /*+ */ TEST_ERROR SET CHILD_ID = ?,name = ?,age = ?,birthDay =
 	// ?,CH_MOTHER_ID = ? WHERE CHILD_ID = ?
 
-	private final static String insertSQL = "INSERT /*+ */ INTO TEST_ERROR(CHILD_ID,name,age,birthDay,CH_MOTHER_ID,CH_FATHER_ID,CH_FATHER_TYPE) values (?,?,?,?,?,?,?)";
+	private static final String insertSQL = "INSERT /*+ */ INTO TEST_ERROR(CHILD_ID,name,age,birthDay,CH_MOTHER_ID,CH_FATHER_ID,CH_FATHER_TYPE) values (?,?,?,?,?,?,?)";
 
-	private final static String updateSQL = "UPDATE /*+ */ TEST_ERROR SET CHILD_ID = ?,name = ?,age = ?,birthDay = ?,CH_MOTHER_ID = ?,CH_FATHER_ID = ?,CH_FATHER_TYPE = ? WHERE CHILD_ID = ?";
+	private static final String updateSQL = "UPDATE /*+ */ TEST_ERROR SET CHILD_ID = ?,name = ?,age = ?,birthDay = ?,CH_MOTHER_ID = ?,CH_FATHER_ID = ?,CH_FATHER_TYPE = ? WHERE CHILD_ID = ?";
 
-	private final static String deleteSQL = "DELETE /*+ */ FROM TEST_ERROR WHERE CHILD_ID = ?";
+	private static final String deleteSQL = "DELETE /*+ */ FROM TEST_ERROR WHERE CHILD_ID = ?";
 
 	/**
 	 * @return the deleteSQL

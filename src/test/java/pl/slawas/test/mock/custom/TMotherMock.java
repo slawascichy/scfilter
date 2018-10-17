@@ -18,7 +18,7 @@ import pl.slawas.test.mock.TableInfoMock;
  */
 public class TMotherMock implements TableInfoMock {
 
-	private final static String tableName = "MOTHERS";
+	private static final String tableName = "MOTHERS";
 
 	/**
 	 * @return the tableName
@@ -48,11 +48,11 @@ public class TMotherMock implements TableInfoMock {
 	// UPDATE /*+ */ MOTHERS SET MOTHER_ID = ?,PARENT_NAME = ? WHERE MOTHER_ID =
 	// ?
 
-	private final static String insertSQL = "INSERT /*+ */ INTO MOTHERS(MOTHER_ID,PARENT_NAME) values (?,?)";
+	private static final String insertSQL = "INSERT /*+ */ INTO MOTHERS(MOTHER_ID,PARENT_NAME) values (?,?)";
 
-	private final static String updateSQL = "UPDATE /*+ */ MOTHERS SET MOTHER_ID = ?,PARENT_NAME = ? WHERE MOTHER_ID = ?";
+	private static final String updateSQL = "UPDATE /*+ */ MOTHERS SET MOTHER_ID = ?,PARENT_NAME = ? WHERE MOTHER_ID = ?";
 
-	private final static String deleteSQL = "DELETE /*+ */ FROM MOTHERS WHERE MOTHER_ID = ?";
+	private static final String deleteSQL = "DELETE /*+ */ FROM MOTHERS WHERE MOTHER_ID = ?";
 
 	/**
 	 * @return the deleteSQL
