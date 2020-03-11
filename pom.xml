@@ -37,7 +37,7 @@
 			<url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
 		</license>
 	</licenses>
-	<url>http://scisoftware.pl/SC/Utils/${project.artifactId}/index.html</url>
+	<url>https://github.com/slawascichy/scfilter</url>
 	<organization>
 		<name>Sci Software</name>
 		<url>http://scisoftware.pl</url>
