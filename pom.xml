@@ -1,26 +1,13 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>pl.slawas</groupId>
 	<artifactId>scfilter</artifactId>
 	<version>0.0.5-SNAPSHOT</version>
 	<name>SC Filter</name>
 	<description>Filtering Data Module</description>
-
-	<developers>
-		<developer>
-			<id>slawas</id>
-			<name>Sławomir Cichy</name>
-			<email>slawas@slawas.pl</email>
-			<roles>
-				<role>developer</role>
-				<role>manager</role>
-			</roles>
-			<url>
-				http://slawas.pl
-			</url>
-			<timezone>+1</timezone>
-		</developer>
-	</developers>
+	<url>https://github.com/slawascichy/scfilter</url>
 
 	<properties>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -31,17 +18,42 @@
 		<slf4j.version>1.5.2</slf4j.version>
 	</properties>
 
+	<developers>
+		<developer>
+			<id>slawas</id>
+			<name>Sławomir Cichy</name>
+			<email>slawas@slawas.pl</email>
+			<roles>
+				<role>developer</role>
+				<role>manager</role>
+			</roles>
+			<url>http://slawas.pl</url>
+			<timezone>+1</timezone>
+		</developer>
+	</developers>
+
 	<licenses>
 		<license>
 			<name>Apache License, Version 2.0</name>
 			<url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
 		</license>
 	</licenses>
-	<url>https://github.com/slawascichy/scfilter</url>
+
 	<organization>
 		<name>Sci Software</name>
 		<url>http://scisoftware.pl</url>
 	</organization>
+
+	<scm>
+		<connection>scm:git:https://github.com/slawascichy/scfilter.git</connection>
+		<developerConnection>scm:git:https://github.com/slawascichy/scfilter.git</developerConnection>
+		<url>https://github.com/slawascichy/scfilter</url>
+	</scm>
+
+	<issueManagement>
+		<url>https://github.com/slawascichy/scfilter/issues</url>
+		<system>GitHub Issues</system>
+	</issueManagement>
 
 	<build>
 		<extensions>
